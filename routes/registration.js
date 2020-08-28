@@ -82,6 +82,7 @@ module.exports = () => {
   //LOGOUT A USER
   router.post("/logout", (req, res) => {
     const { token } = req.body;
+    jwt.destroy(token);
     res.send("Logout successful");
   });
 
