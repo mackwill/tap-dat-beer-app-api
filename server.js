@@ -32,23 +32,13 @@ app.use(
 );
 
 // Separated Routes for each Resource
-//const usersRoutes = require("./routes/users");
+const registrationRoutes = require("./routes/registration");
 // Mount all resource routes
-//app.use("/api/users", usersRoutes);
+app.use("/api/", registrationRoutes);
 
-app.get("/", (req, res) => {
-  res.send("hello");
-});
-
-app.post("/register", (req, res) => {
-  const { email, password } = req.body;
-  db.query(
-    `
-    CREATE users 
-  `,
-    [email, password]
-  );
-});
+app.get('/', (req, res) => {
+  res.send('hello')
+})
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
