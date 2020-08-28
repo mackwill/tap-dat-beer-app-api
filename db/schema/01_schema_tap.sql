@@ -71,18 +71,18 @@ CREATE TABLE recommendations(
 
 
 ALTER TABLE
-  users OWNER TO vince;
+  users OWNER TO dev;
 ALTER TABLE
-  beers OWNER TO vince;
+  beers OWNER TO dev;
 ALTER TABLE
-  reviews OWNER TO vince;
+  reviews OWNER TO dev;
 ALTER TABLE
-  upvotes OWNER TO vince;
+  upvotes OWNER TO dev;
 ALTER TABLE
-  whishlists OWNER TO vince;
+  whishlists OWNER TO dev;
 ALTER TABLE
-  favourites OWNER TO vince;
+  favourites OWNER TO dev;
 ALTER TABLE
-  recommendations OWNER TO vince;
+  recommendations OWNER TO dev;
 ALTER TABLE
-  ratings OWNER TO vince;
+  ratings OWNER TO dev;
