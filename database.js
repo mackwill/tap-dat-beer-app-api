@@ -41,3 +41,17 @@ const getBeers = function () {
     .catch((e) => null);
 };
 exports.getBeers = getBeers;
+
+const getASingleBeer = function (beer_id) {
+  return db
+    .query(
+      `
+  SELECT * FROM beers
+  WHERE id = $1
+  `,
+      [beer_id]
+    )
+    .then((res) => res.rows[0])
+    .catch((e) => null);
+};
+exports.getASingleBeer = getASingleBeer;

@@ -33,15 +33,13 @@ app.use(
 
 // Separated Routes for each Resource
 const registrationRoutes = require("./routes/registration");
+const beersRoutes = require("./routes/beers");
 // Mount all resource routes
 app.use("/api", registrationRoutes());
+app.use("/beers", beersRoutes());
 
 app.get("/", (req, res) => {
   res.send("hello");
-});
-
-app.get("/beers", (req, res) => {
-  database.getBeers().then((data) => res.send({ data }));
 });
 
 app.listen(PORT, () => {
