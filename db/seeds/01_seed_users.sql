@@ -1,0 +1,20 @@
+INSERT INTO users (first_name, last_name, email, password)
+VALUES
+  ('Vincent', 'Bedard', 'vb@gmail.com', 'passwword'),
+  ('William', 'Mindenhall', 'wm@gmail.com', 'passwword'),
+  ('Rob', 'Polisena', 'rp@gmail.com', 'passwword'),
+  ('a', 'a', 'aa@gmail.com', 'passwword'),
+  ('b', 'b', 'bb@gmail.com', 'passwword'),
+  ('c', 'c', 'cc@gmail.com', 'passwword'),
+  ('d', 'd', 'dd@gmail.com', 'passwword'),
+  ('e', 'e', 'ee@gmail.com', 'passwword'),
+  ('f', 'f', 'ff@gmail.com', 'passwword'),
+  ('g', 'g', 'gg@gmail.com', 'passwword'),
+  ('h', 'h', 'hh@gmail.com', 'passwword'),
+  ('i', 'i', 'ii@gmail.com', 'passwword'),
+  ('j', 'j', 'jj@gmail.com', 'passwword'),
+  ('k', 'k', 'kk@gmail.com', 'passwword'),
+  ('l', 'l', 'll@gmail.com', 'passwword'),
+  ('m', 'm', 'mm@gmail.com', 'passwword'),
+  ('n', 'n', 'nn@gmail.com', 'passwword'),
+  ('o', 'o', 'oo@gmail.com', 'passwword');

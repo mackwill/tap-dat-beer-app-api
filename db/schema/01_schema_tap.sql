@@ -1,52 +1,88 @@
--- DROP TABLE IF EXISTS users CASCADE;
--- DROP TABLE IF EXISTS tweets CASCADE;
--- DROP TABLE IF EXISTS comments CASCADE;
--- DROP TABLE IF EXISTS likes CASCADE;
--- DROP TABLE IF EXISTS followings CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS beers CASCADE;
+DROP TABLE IF EXISTS whishlists CASCADE;
+DROP TABLE IF EXISTS favourites CASCADE;
+DROP TABLE IF EXISTS reviews CASCADE;
+DROP TABLE IF EXISTS recommendations CASCADE;
+DROP TABLE IF EXISTS upvotes CASCADE;
+DROP TABLE IF EXISTS ratings CASCADE;
 
--- CREATE TABLE users(
---   id SERIAL PRIMARY KEY NOT NULL,
---   name VARCHAR(255) NOT NULL,
---   email VARCHAR(255) NOT NULL,
---   password VARCHAR(255) NOT NULL,
---   profile_image VARCHAR(255) DEFAULT 'https://i.imgur.com/nlhLi3I.png'
--- );
 
--- CREATE TABLE tweets(
---   id SERIAL PRIMARY KEY NOT NULL,
---   content VARCHAR(255) NOT NULL,
---   owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
---   creation_date TIMESTAMPTZ DEFAULT now()
--- );
+CREATE TABLE users(
+  id SERIAL PRIMARY KEY NOT NULL,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL
+);
 
--- CREATE TABLE comments(
---   id SERIAL PRIMARY KEY NOT NULL,
---   content VARCHAR(255) NOT NULL,
---   tweet_id INTEGER REFERENCES tweets(id) ON DELETE CASCADE,
---   owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE
--- );
+CREATE TABLE beers(
+  id SERIAL PRIMARY KEY NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  brewery VARCHAR(255) NOT NULL,
+  beer_image TEXT,
+  type VARCHAR(255) NOT NULL,
+  abv INTEGER NOT NULL,
+  beer_store_id INTEGER
+);
 
--- CREATE TABLE likes(
---   id SERIAL PRIMARY KEY NOT NULL,
---   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
---   tweet_id INTEGER REFERENCES tweets(id) ON DELETE CASCADE
--- );
+CREATE TABLE whishlists(
+  id SERIAL PRIMARY KEY NOT NULL,
+  beer_id INTEGER REFERENCES beers(id) ON DELETE CASCADE,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+);
 
--- CREATE TABLE followings(
---   id SERIAL PRIMARY KEY NOT NULL,
---   follower_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
---   followed_id INTEGER REFERENCES users(id) ON DELETE CASCADE
--- );
+CREATE TABLE favourites(
+  id SERIAL PRIMARY KEY NOT NULL,
+  beer_id INTEGER REFERENCES beers(id) ON DELETE CASCADE,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+);
 
--- ALTER TABLE
---   tweets OWNER TO vincent;
+CREATE TABLE ratings(
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  beer_id INTEGER REFERENCES beers(id) ON DELETE CASCADE,
+  rank INTEGER
+);
 
--- ALTER TABLE
---   users OWNER TO vincent;
+CREATE TABLE reviews(
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  beer_id INTEGER REFERENCES beers(id) ON DELETE CASCADE,
+  review VARCHAR(255) NOT NULL,
+  sweet INTEGER,
+  sour INTEGER,
+  hoppiness INTEGER,
+  bitter INTEGER,
+  rank INTEGER
+);
 
--- ALTER TABLE
---   comments OWNER TO vincent;
--- ALTER TABLE
---   likes OWNER TO vincent;
--- ALTER TABLE
---   followings OWNER TO vincent;
+CREATE TABLE upvotes(
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  review_id INTEGER REFERENCES reviews(id) ON DELETE CASCADE
+);
+
+CREATE TABLE recommendations(
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  beer_id INTEGER REFERENCES beers(id) ON DELETE CASCADE
+);
+
+
+ALTER TABLE
+  users OWNER TO vince;
+ALTER TABLE
+  beers OWNER TO vince;
+ALTER TABLE
+  reviews OWNER TO vince;
+ALTER TABLE
+  upvotes OWNER TO vince;
+ALTER TABLE
+  whishlists OWNER TO vince;
+ALTER TABLE
+  favourites OWNER TO vince;
+ALTER TABLE
+  recommendations OWNER TO vince;
+ALTER TABLE
+  ratings OWNER TO vince;

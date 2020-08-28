@@ -40,6 +40,16 @@ app.get("/", (req, res) => {
   res.send("hello");
 });
 
+app.post("/register", (req, res) => {
+  const { email, password } = req.body;
+  db.query(
+    `
+    CREATE users 
+  `,
+    [email, password]
+  );
+});
+
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
