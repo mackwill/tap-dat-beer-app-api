@@ -15,21 +15,15 @@ const getUserWithEmail = function (email) {
 exports.getUserWithEmail = getUserWithEmail;
 
 const addUser = function (user) {
-  const {
-    first_name,
-    last_name,
-    email,
-    password,
-    password_confirmation,
-  } = user;
+  const { firstName, lastName, email, password } = user;
   return db
     .query(
       `
-    INSERT INTO users (first_name, last_name, email, password, password_confirmation)
-    VALUES ($1, $2, $3, $4, $5)
+    INSERT INTO users (first_name, last_name, email, password)
+    VALUES ($1, $2, $3, $4)
     RETURNING *
   `,
-      [first_name, last_name, email, password, password_confirmation]
+      [firstName, lastName, email, password]
     )
     .then((res) => res.rows[0])
     .catch((e) => null);

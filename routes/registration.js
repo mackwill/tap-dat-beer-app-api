@@ -60,6 +60,7 @@ module.exports = () => {
         database
           .addUser(user)
           .then((user) => {
+            console.log("made it here:", user);
             if (!user) {
               res.send();
             } else {
