@@ -34,9 +34,11 @@ app.use(
 // Separated Routes for each Resource
 const registrationRoutes = require("./routes/registration");
 const beersRoutes = require("./routes/beers");
+//const recomRoutes = require("./recommendation_system/index");
 // Mount all resource routes
 app.use("/api", registrationRoutes());
 app.use("/beers", beersRoutes());
+//app.use("/recom", recomRoutes());
 
 app.get("/", (req, res) => {
   res.send("hello");

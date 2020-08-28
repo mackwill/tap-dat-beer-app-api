@@ -55,3 +55,33 @@ const getASingleBeer = function (beer_id) {
     .catch((e) => null);
 };
 exports.getASingleBeer = getASingleBeer;
+
+const getRecommendationsForUser = function (userId) {
+  return db
+    .query(
+      `
+  SELECT * FROM recommendations
+  WHERE user_id = $1
+  `,
+      [userId]
+    )
+    .then((res) => res.rows[0])
+    .catch((e) => null);
+};
+exports.getRecommendationsForUser = getRecommendationsForUser;
+
+const getAllRatings = function () {
+  return db
+    .query(`SELECT * FROM ratings`)
+    .then((res) => res.rows)
+    .catch((e) => null);
+};
+exports.getAllRatings = getAllRatings;
+
+const getAllUsers = function () {
+  return db
+    .query(`SELECT * FROM users`)
+    .then((res) => res.rows)
+    .catch((e) => null);
+};
+exports.getAllUsers = getAllUsers;

@@ -8,6 +8,13 @@ module.exports = () => {
     database.getBeers().then((data) => res.send({ data }));
   });
 
+  router.get("/recommendations", (req, res) => {
+    const userId = req.session.userid;
+    database
+      .getRecommendationsForUser(userId)
+      .then((data) => res.send({ data }));
+  });
+
   //GET A SPECIFIC BEER
   router.get("/:id", (req, res) => {
     database.getASingleBeer(req.params.id).then((data) => res.send({ data }));
