@@ -18,7 +18,7 @@ db.connect();
 
 module.exports = db;
 
-//const database = require("./database");
+const database = require("./database");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -34,11 +34,15 @@ app.use(
 // Separated Routes for each Resource
 const registrationRoutes = require("./routes/registration");
 // Mount all resource routes
-app.use("/api/", registrationRoutes);
+app.use("/api", registrationRoutes());
 
-app.get('/', (req, res) => {
-  res.send('hello')
-})
+app.get("/", (req, res) => {
+  res.send("hello");
+});
+
+app.get("/beers", (req, res) => {
+  database.getBeers().then((data) => res.send({ data }));
+});
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);

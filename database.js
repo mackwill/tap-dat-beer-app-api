@@ -7,7 +7,7 @@ const getUserWithEmail = function (email) {
     SELECT * FROM users
     WHERE email = $1
   `,
-      [emai]
+      [email]
     )
     .then((res) => res.rows[0])
     .catch((e) => null);
@@ -37,11 +37,12 @@ const addUser = function (user) {
 exports.addUser = addUser;
 
 const getBeers = function () {
-  db.query(
-    `
+  return db
+    .query(
+      `
   SELECT * FROM beers
   `
-  )
+    )
     .then((res) => res.rows)
     .catch((e) => null);
 };

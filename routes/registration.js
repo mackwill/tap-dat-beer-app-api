@@ -26,23 +26,23 @@ function authenticate(req, res, next) {
     next();
   });
 }
+
 module.exports = () => {
-  router.get("/api/beers", (req, res) => {
+  router.get("/beers", (req, res) => {
     database.getBeers().then((data) => res.send({ data }));
   });
-
   //LOGIN A USER
-  router.post("/api/login", (req, res) => {
+  router.post("/login", (req, res) => {
     const { email, password } = req.body;
     login(email, password)
       .then((user) => {
         if (!user) {
+          console.log("sorry");
           res.send("didnt work");
         }
         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
         res.json({ user, accessToken });
         res.status(200);
-        //res.send(user)
       })
       .catch(() => {
         res.send();
@@ -50,7 +50,7 @@ module.exports = () => {
   });
 
   //REGISTER/CREATE A USER
-  router.post("/api/register", (req, res) => {
+  router.post("/register", (req, res) => {
     const user = req.body;
     user.password = bcrypt.hashSync(user.password, 12);
     database.getUserWithEmail(user.email).then((existingUser) => {
@@ -80,7 +80,7 @@ module.exports = () => {
   });
 
   //LOGOUT A USER
-  router.post("/api/logout", (req, res) => {
+  router.post("/logout", (req, res) => {
     const { token } = req.body;
     res.send("Logout successful");
   });
