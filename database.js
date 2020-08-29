@@ -108,3 +108,36 @@ const createRecommendation = function (recommendation) {
   );
 };
 exports.createRecommendation = createRecommendation;
+
+const searchForBeers = (query) => {
+  let q = query;
+  if (q.split(" ").length === 1) {
+    q = q.split(" ")[0];
+  } else if (q.split(" ").length === 2) {
+    q1 = q.split(" ")[0];
+    q2 = q.split(" ")[1];
+    q = `${q1} & ${q2}`;
+  } else {
+    q1 = q.split(" ")[0];
+    q2 = q.split(" ")[1];
+    q3 = q.split(" ")[2];
+    q = `${q1} & ${q2} & ${q3}`;
+  }
+  return db
+    .query(
+      `
+  SELECT * FROM beers
+  WHERE (setweight(to_tsvector(name), 'A') ||
+  setweight(to_tsvector(brewery), 'B') ||
+  setweight(to_tsvector(type), 'C'))
+  @@ to_tsquery($1)
+  ORDER BY ts_rank((setweight(to_tsvector(name), 'A') ||
+  setweight(to_tsvector(brewery), 'B') ||
+  setweight(to_tsvector(type), 'C')), to_tsquery($1)) DESC
+`,
+      [q]
+    )
+    .then((res) => res.rows)
+    .catch((e) => null);
+};
+exports.searchForBeers = searchForBeers;
