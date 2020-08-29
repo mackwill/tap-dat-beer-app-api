@@ -110,17 +110,19 @@ const createRecommendation = function (recommendation) {
 exports.createRecommendation = createRecommendation;
 
 const searchForBeers = (query) => {
+  //let q = `${query}:*`;
+  //let q = query.replace(/ /g, " & ");
   let q = query;
-  if (q.split(" ").length === 1) {
-    q = q.split(" ")[0];
-  } else if (q.split(" ").length === 2) {
-    q1 = q.split(" ")[0];
-    q2 = q.split(" ")[1];
+  if (q.trim().split(" ").length === 1) {
+    q = `${q.split(" ")[0]}:*`;
+  } else if (q.trim().split(" ").length === 2) {
+    q1 = `${q.split(" ")[0]}:*`;
+    q2 = `${q.split(" ")[1]}:*`;
     q = `${q1} & ${q2}`;
   } else {
-    q1 = q.split(" ")[0];
-    q2 = q.split(" ")[1];
-    q3 = q.split(" ")[2];
+    q1 = `${q.split(" ")[0]}:*`;
+    q2 = `${q.split(" ")[1]}:*`;
+    q3 = `${q.split(" ")[2]}:*`;
     q = `${q1} & ${q2} & ${q3}`;
   }
   return db

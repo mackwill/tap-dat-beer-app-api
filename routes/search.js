@@ -4,7 +4,13 @@ const database = require("../database");
 
 module.exports = () => {
   router.get("/", (req, res) => {
-    database.searchForBeers(req.query).then((data) => res.send({ data }));
+    if (req.query.q.length < 3) {
+      res.send();
+    } else {
+      database.searchForBeers(req.query.q).then((data) => {
+        res.send({ data });
+      });
+    }
   });
 
   return router;
