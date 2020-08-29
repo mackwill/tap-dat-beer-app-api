@@ -17,14 +17,14 @@ const login = function (email, password) {
 //AUTHENTICATE MIDDLEWARE FOR THE JSONWEBTOKEN
 function authenticate(req, res, next) {
   console.log(req.session.token);
-  const token = req.session.ACCESS_TOKEN_SECRET;
+  const token = req.session.token;
   if (token == null) return res.sendStatus(401);
 
-  jwt.verify(token.process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;
-    next();
   });
+  next();
 }
 
 module.exports = () => {
@@ -35,7 +35,6 @@ module.exports = () => {
         .then((data) => res.json({ data }))
         .catch((e) => null);
     }
-    res.send();
   });
   //LOGIN A USER
   router.post("/login", (req, res) => {

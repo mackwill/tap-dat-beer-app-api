@@ -8,7 +8,10 @@ const db = require("../server");
 module.exports = () => {
   router.get("/algo", async (req, res) => {
     const ratings = await database.getAllRatings();
-    const users = await database.getAllUsers();
+    function getUsersFromRatings(ratings) {
+      return getUnique(ratings, "user_id");
+    }
+    const users = getUsersFromRatings(ratings);
 
     function transformDataToTable(data) {
       const ratings_to_table = {};
@@ -109,31 +112,33 @@ module.exports = () => {
       return getUnique(topSuggestedBeer);
     }
 
-    // console.log(
-    //   "sugested beer:",
-    //   findSuggestedBeer(find3ClosestNeighbour("5"))
-    // );
-    users.forEach(async (user) => {
-      const user_id = user.id.toString();
-      await database.deleteRecommendationByUserId(user_id);
-    });
-    const finalInsert = users.map((user) => {
-      return `( ${find3ClosestNeighbour(user.id.toString())})`;
-      //findSuggestedBeer(find3ClosestNeighbour(user.id.toString()))
+    let finalInsert = "";
+    users.forEach((user, index) => {
+      if (index === users.length - 1) {
+        finalInsert += `( ${user.user_id}, ${
+          findSuggestedBeer(find3ClosestNeighbour(user.user_id.toString()))[0]
+            .beer_id
+        } );`;
+      } else {
+        finalInsert += `( ${user.user_id}, ${
+          findSuggestedBeer(find3ClosestNeighbour(user.user_id.toString()))[0]
+            .beer_id
+        } ),`;
+      }
     });
     console.log(finalInsert);
-    // users.forEach(async (user) => {
-    //   const user_id = user.id.toString();
-    //   console.log("here:", user_id);
-    //   const recommendations = findSuggestedBeer(find3ClosestNeighbour(user_id));
-    //   recommendations.forEach((elm) => {
-    //     const recommendation = {
-    //       user_id: user_id,
-    //       beer_id: elm.beer_id,
-    //     };
-    //     database.createRecommendation(recommendation);
-    //   });
-    // });
+    db.query(`DELETE FROM recommendations`)
+      .then((res) => console.log("deleted:works:", res))
+      .catch((e) => console.log("deleted:failed:", e));
+
+    db.query(
+      `
+      INSERT INTO recommendations (user_id, beer_id)
+      VALUES ${finalInsert}
+      `
+    )
+      .then((res) => console.log("Added:works:", res.rows))
+      .catch((e) => console.log("Added: failed:", null));
   });
 
   return router;
