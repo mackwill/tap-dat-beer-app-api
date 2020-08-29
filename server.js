@@ -35,10 +35,13 @@ app.use(
 const registrationRoutes = require("./routes/registration");
 const beersRoutes = require("./routes/beers");
 const recomRoutes = require("./recommendation_system/index");
+const searchRoutes = require("./routes/search");
+
 // Mount all resource routes
 app.use("/api", registrationRoutes());
 app.use("/api/beers", beersRoutes());
 app.use("/algo", recomRoutes());
+app.use("/search", searchRoutes());
 
 app.get("/", (req, res) => {
   res.send("hello");
