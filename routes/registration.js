@@ -28,6 +28,15 @@ function authenticate(req, res, next) {
 }
 
 module.exports = () => {
+  router.get("/user", authenticate, (req, res) => {
+    if (req.user) {
+      database
+        .getUserById(req.user.id)
+        .then((data) => res.json({ data }))
+        .catch((e) => null);
+    }
+    res.send();
+  });
   //LOGIN A USER
   router.post("/login", (req, res) => {
     const { email, password } = req.body;

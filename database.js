@@ -141,3 +141,16 @@ const searchForBeers = (query) => {
     .catch((e) => null);
 };
 exports.searchForBeers = searchForBeers;
+
+const getUserById = (id) => {
+  return db
+    .query(
+      `
+  SELECT * FROM users
+  WHERE id = $1`,
+      [id]
+    )
+    .then((res) => res.rows[0])
+    .catch((e) => null);
+};
+exports.getUserById = getUserById;
