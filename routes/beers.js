@@ -5,6 +5,9 @@ const database = require("../database");
 module.exports = () => {
   //GET ALL THE BEERS
   router.get("/", (req, res) => {
+    if (req.session) {
+      console.log("get back cookie:", req.session.token);
+    }
     database.getBeers().then((data) => res.send({ data }));
   });
 

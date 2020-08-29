@@ -85,3 +85,26 @@ const getAllUsers = function () {
     .catch((e) => null);
 };
 exports.getAllUsers = getAllUsers;
+
+const deleteRecommendationByUserId = function (user_id) {
+  return db.query(
+    `
+  DELETE FROM recommendations
+  WHERE id = $1
+  `,
+    [user_id]
+  );
+};
+exports.deleteRecommendationByUserId = deleteRecommendationByUserId;
+
+const createRecommendation = function (recommendation) {
+  const { user_id, beer_id } = recommendation;
+  return db.query(
+    `
+      INSERT INTO recommendations (user_id, beer_id)
+      VALUES ($1, $2)
+    `,
+    [user_id, beer_id]
+  );
+};
+exports.createRecommendation = createRecommendation;

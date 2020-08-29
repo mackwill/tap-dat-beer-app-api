@@ -15,17 +15,17 @@ const login = function (email, password) {
 };
 
 //AUTHENTICATE MIDDLEWARE FOR THE JSONWEBTOKEN
-// function authenticate(req, res, next) {
-//   console.log(req.session.userid);
-//   // const token = authHeader && authHeader.split(" ")[1];
-//   // if (token == null) return res.sendStatus(401);
+function authenticate(req, res, next) {
+  console.log(req.session.token);
+  const token = req.session.ACCESS_TOKEN_SECRET;
+  if (token == null) return res.sendStatus(401);
 
-//   // jwt.verify(token.process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-//   //   if (err) return res.sendStatus(403);
-//   //   req.user = user;
-//   next();
-//   // });
-// }
+  jwt.verify(token.process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
 
 module.exports = () => {
   //LOGIN A USER
@@ -38,6 +38,7 @@ module.exports = () => {
           res.send("didnt work");
         }
         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+        req.session.token = accessToken;
         res.json({ user, accessToken });
         res.status(200);
       })
@@ -65,8 +66,7 @@ module.exports = () => {
                 user,
                 process.env.ACCESS_TOKEN_SECRET
               );
-              console.log("accessToken:", accessToken);
-              req.session.userid = accessToken;
+              req.session.token = accessToken;
               res.json({ user, accessToken });
               res.status(200);
               //res.send(user)
@@ -81,8 +81,7 @@ module.exports = () => {
 
   //LOGOUT A USER
   router.post("/logout", (req, res) => {
-    const { token } = req.body;
-    jwt.destroy(token);
+    req.session.token = null;
     res.send("Logout successful");
   });
 
