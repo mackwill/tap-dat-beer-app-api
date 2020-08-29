@@ -156,3 +156,29 @@ const getUserById = (id) => {
     .catch((e) => null);
 };
 exports.getUserById = getUserById;
+
+const newSearch = (newsearch) => {
+  const { user_id, beer_id, query } = newsearch;
+  return db
+    .query(
+      `
+  INSERT INTO search_analytics (user_id, beer_id, query)
+  VALUES ($1, $2, $3)`,
+      [user_id, beer_id, query]
+    )
+    .then((res) => res.rows)
+    .catch((e) => null);
+};
+exports.newSearch = newSearch;
+
+const getSearchAnalytics = () => {
+  return db
+    .query(
+      `
+  SELECT * FROM search_analytics
+  JOIN beers ON beer_id = beers.id`
+    )
+    .then((res) => res.rows)
+    .catch((e) => null);
+};
+exports.getSearchAnalytics = getSearchAnalytics;

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const database = require("../database");
+const helper = require("../helper");
 
 module.exports = () => {
   router.get("/", (req, res) => {
@@ -13,5 +14,21 @@ module.exports = () => {
     }
   });
 
+  router.post("/analytics", (req, res) => {
+    database
+      .newSearch(req.body)
+      .then((data) => res.send(data))
+      .catch((e) => res.send());
+  });
+
+  router.get("/analytics", (req, res) => {
+    database
+      .getSearchAnalytics()
+      .then((data) => {
+        const finalData = helper.returnTop10Searches(data);
+        res.send({ finalData });
+      })
+      .catch((e) => res.send());
+  });
   return router;
 };

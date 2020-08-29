@@ -1,3 +1,6 @@
+INSERT INTO search_analytics (user_id, beer_id, query)
+VALUES (1, 2, 'stout');
+
 -- INSERT INTO whishlists (beer_id, user_id)
 -- VALUES (1, 1);
 

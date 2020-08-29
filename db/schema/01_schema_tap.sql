@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS reviews CASCADE;
 DROP TABLE IF EXISTS recommendations CASCADE;
 DROP TABLE IF EXISTS upvotes CASCADE;
 DROP TABLE IF EXISTS ratings CASCADE;
-
+DROP TABLE IF EXISTS search_analytics CASCADE;
 
 CREATE TABLE users(
   id SERIAL PRIMARY KEY NOT NULL,
@@ -69,6 +69,12 @@ CREATE TABLE recommendations(
   beer_id INTEGER REFERENCES beers(id) ON DELETE CASCADE
 );
 
+CREATE TABLE search_analytics(
+    id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  beer_id INTEGER REFERENCES beers(id) ON DELETE CASCADE,
+  query VARCHAR(255) NOT NULL
+);
 
 ALTER TABLE
   users OWNER TO dev;
@@ -86,3 +92,5 @@ ALTER TABLE
   recommendations OWNER TO dev;
 ALTER TABLE
   ratings OWNER TO dev;
+ALTER TABLE
+  search_analytics OWNER TO dev;
