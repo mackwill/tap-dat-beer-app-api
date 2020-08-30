@@ -175,15 +175,27 @@ exports.getUserById = getUserById;
 
 const newSearch = (newsearch) => {
   const { user_id, beer_id, query } = newsearch;
-  return db
-    .query(
-      `
+  if (!user_id) {
+    return db
+      .query(
+        `
+  INSERT INTO search_analytics (beer_id, query)
+  VALUES ($1, $2)`,
+        [beer_id, query]
+      )
+      .then((res) => res.rows)
+      .catch((e) => null);
+  } else {
+    return db
+      .query(
+        `
   INSERT INTO search_analytics (user_id, beer_id, query)
   VALUES ($1, $2, $3)`,
-      [user_id, beer_id, query]
-    )
-    .then((res) => res.rows)
-    .catch((e) => null);
+        [user_id, beer_id, query]
+      )
+      .then((res) => res.rows)
+      .catch((e) => null);
+  }
 };
 exports.newSearch = newSearch;
 
