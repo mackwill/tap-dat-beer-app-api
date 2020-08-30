@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const bcrypt = require("bcrypt");
 const app = express();
+const cron = require("node-cron");
 
 // PG database client/connection setup
 const { Pool } = require("pg");
@@ -19,6 +20,7 @@ db.connect();
 module.exports = db;
 
 const database = require("./database");
+const engine = require("./recommendation_system/index");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -31,16 +33,21 @@ app.use(
   })
 );
 
+cron.schedule("* * 1 * *", function () {
+  console.log("Engine running...");
+  engine.recommendationEngine();
+});
+
 // Separated Routes for each Resource
 const registrationRoutes = require("./routes/registration");
 const beersRoutes = require("./routes/beers");
-const recomRoutes = require("./recommendation_system/index");
+//const recomRoutes = require("./recommendation_system/index");
 const searchRoutes = require("./routes/search");
 
 // Mount all resource routes
 app.use("/api", registrationRoutes());
 app.use("/api/beers", beersRoutes());
-app.use("/algo", recomRoutes());
+//app.use("/algo", recomRoutes());
 app.use("/search", searchRoutes());
 
 app.get("/", (req, res) => {
