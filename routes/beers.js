@@ -18,9 +18,25 @@ module.exports = () => {
       .then((data) => res.send({ data }));
   });
 
-  //GET A SPECIFIC BEER
+  //GET A SPECIFIC BEER AND REVIEWS RELATED TO THAT BEER
   router.get("/:id", (req, res) => {
-    database.getASingleBeer(req.params.id).then((data) => res.send({ data }));
+    let singleBeer = {};
+    database
+      .getASingleBeer(req.params.id)
+      .then((data) => {
+        singleBeer = { ...data };
+        return database.getReviewsForSingleBeer(data.id);
+      })
+      .then((reviews) => {
+        res.send({
+          beer: singleBeer,
+          reviews: reviews,
+        });
+      })
+      .catch((err) => {
+        res.status(500);
+        console.log("Error: ", err);
+      });
   });
 
   return router;

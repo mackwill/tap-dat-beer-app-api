@@ -52,7 +52,7 @@ CREATE TABLE reviews(
   review VARCHAR(255) NOT NULL,
   sweet INTEGER,
   sour INTEGER,
-  hoppiness INTEGER,
+  hoppy INTEGER,
   bitter INTEGER,
   rank INTEGER
 );
