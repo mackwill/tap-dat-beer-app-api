@@ -32,7 +32,7 @@ app.use(
     maxAge: 60 * 60 * 1000 * 1,
   })
 );
-
+engine.recommendationEngine();
 cron.schedule("* 23 * * *", function () {
   console.log("Engine running...");
   engine.recommendationEngine();
@@ -45,6 +45,7 @@ const searchRoutes = require("./routes/search");
 const otherRoutes = require("./routes/other");
 const wishlistsRoutes = require("./routes/wishlists");
 const reviewsRoutes = require("./routes/reviews");
+const notesRoutes = require("./routes/notes");
 
 // Mount all resource routes
 app.use("/api", registrationRoutes());
@@ -53,6 +54,7 @@ app.use("/search", searchRoutes());
 app.use("/other", otherRoutes());
 app.use("/wishlists", wishlistsRoutes());
 app.use("/reviews", reviewsRoutes());
+app.use("/notes", notesRoutes());
 
 app.get("/", (req, res) => {
   res.send("hello");

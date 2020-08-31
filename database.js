@@ -1,4 +1,5 @@
 const db = require("./server");
+const beers = require("./routes/beers");
 
 const getUserWithEmail = function (email) {
   return db
@@ -292,3 +293,17 @@ const createReview = (reviewObj) => {
   }
 };
 exports.createReview = createReview;
+
+const addNote = (note) => {
+  const { user_id, beer_id, text } = note;
+  return db
+    .query(
+      `
+  INSERT INTO notes (user_id, beer_id, text)
+  VALUES ($1, $2, $3)`,
+      [user_id, beer_id, text]
+    )
+    .then((res) => res.rows[0])
+    .catch((e) => null);
+};
+exports.addNote = addNote;
