@@ -35,7 +35,7 @@ const getBeers = function () {
     .query(
       `
       SELECT beers.*, CAST(AVG(reviews.rank) AS DECIMAL(10,2)) as avg_rank, COUNT(reviews.*) as num_reviews FROM beers
-      JOIN reviews ON reviews.beer_id = beers.id
+      LEFT JOIN reviews ON reviews.beer_id = beers.id
       GROUP BY beers.id  `
     )
     .then((res) => res.rows)
@@ -232,8 +232,8 @@ const addToWishlist = (beer_id, user_id) => {
   return db
     .query(
       `
-    INSERT INTO whishlists (beer_id, user_id)
-    VALUES $1, $2
+    INSERT INTO wishlists (beer_id, user_id)
+    VALUES ($1, $2)
   `,
       [beer_id, user_id]
     )
@@ -246,7 +246,7 @@ const getWishListByUserId = (user_id) => {
   return db
     .query(
       `
-  SELECT beers.* FROM whishlists
+  SELECT beers.* FROM wishlists
   JOIN beers ON beer_id = beers.id
   WHERE user_id = $1`,
       [user_id]
