@@ -33,5 +33,19 @@ module.exports = () => {
     });
   });
 
+  router.post("/delete", authenticate, (req, res) => {
+    console.log("delete req.body: ", req.body);
+    database
+      .deleteFromWishlist(req.body.beer_id, req.body.user_id)
+      .then((data) => {
+        console.log("data", data);
+        res.send({ data });
+      })
+      .catch((err) => {
+        console.log("err: ", err);
+        res.status(500);
+      });
+  });
+
   return router;
 };

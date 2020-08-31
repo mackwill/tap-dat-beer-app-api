@@ -243,6 +243,22 @@ const addToWishlist = (beer_id, user_id) => {
 };
 exports.addToWishlist = addToWishlist;
 
+const deleteFromWishlist = (beer_id, user_id) => {
+  return db
+    .query(
+      `
+  DELETE FROM wishlists
+  WHERE beer_id = $1
+  AND user_id = $2;
+  `,
+      [beer_id, user_id]
+    )
+    .then((res) => res.rows[0])
+    .catch((err) => res.status(500));
+};
+
+exports.deleteFromWishlist = deleteFromWishlist;
+
 const getWishListByUserId = (user_id) => {
   return db
     .query(
