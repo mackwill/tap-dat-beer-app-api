@@ -43,12 +43,14 @@ const registrationRoutes = require("./routes/registration");
 const beersRoutes = require("./routes/beers");
 const searchRoutes = require("./routes/search");
 const otherRoutes = require("./routes/other");
+const wishlistsRoutes = require("./routes/wishlists");
 
 // Mount all resource routes
 app.use("/api", registrationRoutes());
 app.use("/api/beers", beersRoutes());
 app.use("/search", searchRoutes());
 app.use("/other", otherRoutes());
+app.use("/wishlists", wishlistsRoutes());
 
 app.get("/", (req, res) => {
   res.send("hello");
