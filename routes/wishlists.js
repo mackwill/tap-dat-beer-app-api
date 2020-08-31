@@ -25,8 +25,12 @@ module.exports = () => {
   });
 
   router.post("/", authenticate, (req, res) => {
+    console.log("wishlist post req:", req.body);
     const wish = { beer_id: req.body.beer_id, user_id: req.user.id };
-    database.addToWishlist(wish).then((data) => res.send({ data }));
+    database.addToWishlist(req.body.beer_id, req.body.user_id).then((data) => {
+      console.log("data: ", data);
+      res.send({ data });
+    });
   });
 
   return router;
