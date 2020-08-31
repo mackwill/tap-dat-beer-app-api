@@ -255,3 +255,40 @@ const getWishListByUserId = (user_id) => {
     .catch((e) => null);
 };
 exports.getWishListByUserId = getWishListByUserId;
+
+const createReview = (reviewObj) => {
+  const {
+    user_id,
+    beer_id,
+    sweet,
+    sour,
+    hoppy,
+    bitter,
+    rank,
+    review,
+  } = reviewObj;
+  if (!review) {
+    return db
+      .query(
+        `
+      INSERT INTO reviews ()
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+  `,
+        [user_id, beer_id, sweet, sour, hoppy, bitter, rank]
+      )
+      .then((res) => res.rows)
+      .catch((e) => null);
+  } else {
+    return db
+      .query(
+        `
+      INSERT INTO reviews ()
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+  `,
+        [user_id, beer_id, sweet, sour, hoppy, bitter, rank, review]
+      )
+      .then((res) => res.rows)
+      .catch((e) => null);
+  }
+};
+exports.createReview = createReview;
