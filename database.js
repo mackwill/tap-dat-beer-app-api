@@ -271,7 +271,7 @@ const createReview = (reviewObj) => {
     return db
       .query(
         `
-      INSERT INTO reviews ()
+      INSERT INTO reviews (user_id, beer_id, sweet, sour, hoppy, bitter, rank)
       VALUES ($1, $2, $3, $4, $5, $6, $7)
   `,
         [user_id, beer_id, sweet, sour, hoppy, bitter, rank]
@@ -282,7 +282,7 @@ const createReview = (reviewObj) => {
     return db
       .query(
         `
-      INSERT INTO reviews ()
+      INSERT INTO reviews (user_id, beer_id, sweet, sour, hoppy, bitter, rank, review)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
   `,
         [user_id, beer_id, sweet, sour, hoppy, bitter, rank, review]
