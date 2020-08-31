@@ -34,8 +34,9 @@ const getBeers = function () {
   return db
     .query(
       `
-  SELECT * FROM beers
-  `
+      SELECT beers.*, CAST(AVG(reviews.rank) AS DECIMAL(10,2)) as avg_rank, COUNT(reviews.*) as num_reviews FROM beers
+      JOIN reviews ON reviews.beer_id = beers.id
+      GROUP BY beers.id  `
     )
     .then((res) => res.rows)
     .catch((e) => null);
@@ -76,7 +77,8 @@ const getRecommendationsForUser = function (userId) {
   return db
     .query(
       `
-  SELECT * FROM recommendations
+  SELECT beers.* FROM beers
+  JOIN recommendations ON beers.id = beer_id
   WHERE user_id = $1
   `,
       [userId]
@@ -88,7 +90,7 @@ exports.getRecommendationsForUser = getRecommendationsForUser;
 
 const getAllRatings = function () {
   return db
-    .query(`SELECT * FROM ratings`)
+    .query(`SELECT user_id, beer_id, rank FROM reviews`)
     .then((res) => res.rows)
     .catch((e) => null);
 };

@@ -38,18 +38,18 @@ CREATE TABLE favourites(
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE ratings(
-  id SERIAL PRIMARY KEY NOT NULL,
-  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  beer_id INTEGER REFERENCES beers(id) ON DELETE CASCADE,
-  rank INTEGER
-);
+-- CREATE TABLE ratings(
+--   id SERIAL PRIMARY KEY NOT NULL,
+--   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+--   beer_id INTEGER REFERENCES beers(id) ON DELETE CASCADE,
+--   rank INTEGER
+-- );
 
 CREATE TABLE reviews(
   id SERIAL PRIMARY KEY NOT NULL,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   beer_id INTEGER REFERENCES beers(id) ON DELETE CASCADE,
-  review VARCHAR(255) NOT NULL,
+  review VARCHAR(255),
   sweet INTEGER,
   sour INTEGER,
   hoppy INTEGER,
@@ -90,7 +90,7 @@ ALTER TABLE
   favourites OWNER TO dev;
 ALTER TABLE
   recommendations OWNER TO dev;
-ALTER TABLE
-  ratings OWNER TO dev;
+-- ALTER TABLE
+--   ratings OWNER TO dev;
 ALTER TABLE
   search_analytics OWNER TO dev;

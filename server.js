@@ -33,7 +33,7 @@ app.use(
   })
 );
 
-cron.schedule("* * 1 * *", function () {
+cron.schedule("* 23 * * *", function () {
   console.log("Engine running...");
   engine.recommendationEngine();
 });
@@ -41,14 +41,14 @@ cron.schedule("* * 1 * *", function () {
 // Separated Routes for each Resource
 const registrationRoutes = require("./routes/registration");
 const beersRoutes = require("./routes/beers");
-//const recomRoutes = require("./recommendation_system/index");
 const searchRoutes = require("./routes/search");
+const otherRoutes = require("./routes/other");
 
 // Mount all resource routes
 app.use("/api", registrationRoutes());
 app.use("/api/beers", beersRoutes());
-//app.use("/algo", recomRoutes());
 app.use("/search", searchRoutes());
+app.use("/other", otherRoutes());
 
 app.get("/", (req, res) => {
   res.send("hello");

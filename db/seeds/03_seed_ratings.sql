@@ -1,4 +1,4 @@
-INSERT INTO ratings (user_id, beer_id, rank)
+INSERT INTO reviews (user_id, beer_id, rank)
 VALUES 
 (1,1,5),(1,2,4),(1,3,3),(1,4,2),(1,5,3),
 (2,1,4),(2,2,4),(2,3,2),(2,4,3),(2,5,3),
