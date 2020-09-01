@@ -20,7 +20,19 @@ module.exports = () => {
   router.post("/", authenticate, (req, res) => {
     const note = req.body;
     note.user_id = req.user.id;
-    database.addNote(note).then((data) => res.send({ data }));
+    database.getNote(req.user.id, req.body.beer_id).then((existingnote) => {
+      if (existingnote) {
+        database.updateNote(note).then((data) => res.send({ data }));
+      } else {
+        database.addNote(note).then((data) => res.send({ data }));
+      }
+    });
+  });
+
+  router.get("/:id", authenticate, (req, res) => {
+    database
+      .getNote(req.user.id, req.params.id)
+      .then((data) => res.send({ data }));
   });
 
   return router;

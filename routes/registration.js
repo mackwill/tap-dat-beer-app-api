@@ -36,6 +36,18 @@ module.exports = () => {
         .catch((e) => null);
     }
   });
+
+  router.put("/user", authenticate, (req, res) => {
+    const user = req.user;
+    if (user) {
+      database
+        .updateUser(user.id, req.body)
+        .then((data) => res.send({ data }))
+        .catch((e) => null);
+    } else {
+      res.send((e) => null);
+    }
+  });
   //LOGIN A USER
   router.post("/login", (req, res) => {
     const { email, password } = req.body;

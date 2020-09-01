@@ -84,7 +84,7 @@ const getRecommendationsForUser = function (userId) {
   `,
       [userId]
     )
-    .then((res) => res.rows[0])
+    .then((res) => res.rows)
     .catch((e) => null);
 };
 exports.getRecommendationsForUser = getRecommendationsForUser;
@@ -323,3 +323,49 @@ const addNote = (note) => {
     .catch((e) => null);
 };
 exports.addNote = addNote;
+
+const getNote = (user_id, beer_id) => {
+  return db
+    .query(
+      `
+  SELECT * FROM notes
+  WHERE beer_id = $1 AND user_id = $2
+  `,
+      [beer_id, user_id]
+    )
+    .then((res) => res.rows[0])
+    .catch((e) => null);
+};
+exports.getNote = getNote;
+
+const updateNote = (note) => {
+  const { user_id, beer_id, text } = note;
+  return db
+    .query(
+      `
+  UPDATE notes 
+  SET text = $1
+  WHERE beer_id = $2 AND user_id = $3
+  `,
+      [text, beer_id, user_id]
+    )
+    .then((res) => res.rows[0])
+    .catch((e) => null);
+};
+exports.updateNote = updateNote;
+
+const updateUser = (user_id, user) => {
+  const { first_name, last_name, email, password } = user;
+  return db
+    .query(
+      `
+  UPDATE users
+  SET first_name = $1, last_name = $2, email = $3, password = $4
+  WHERE id = $5
+  `,
+      [first_name, last_name, email, password, user_id]
+    )
+    .then((res) => res.rows[0])
+    .catch((e) => null);
+};
+exports.updateUser = updateUser;
