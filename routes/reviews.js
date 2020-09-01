@@ -16,6 +16,16 @@ function authenticate(req, res, next) {
   next();
 }
 module.exports = () => {
+  // Get reviews for a single user
+  router.get("/user", authenticate, (req, res) => {
+    const user = req.user.id;
+
+    database
+      .getReviewsForSingleUser(user)
+      .then((data) => res.send({ data }))
+      .catch((err) => console.log("Error fetching reviews for user", err));
+  });
+
   //GET ALL THE BEERS
   router.post("/", authenticate, (req, res) => {
     const review = req.body;

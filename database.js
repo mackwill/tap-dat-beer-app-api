@@ -74,6 +74,22 @@ const getReviewsForSingleBeer = function (beer_id) {
 
 exports.getReviewsForSingleBeer = getReviewsForSingleBeer;
 
+const getReviewsForSingleUser = function (user_id) {
+  return db
+    .query(
+      `
+  SELECT reviews.*, beers.name AS beer_name FROM reviews 
+  JOIN beers ON beer_id = beers.id
+  WHERE user_id = $1
+  `,
+      [user_id]
+    )
+    .then((res) => res.rows)
+    .catch((err) => null);
+};
+
+exports.getReviewsForSingleUser = getReviewsForSingleUser;
+
 const getRecommendationsForUser = function (userId) {
   return db
     .query(
@@ -188,6 +204,16 @@ const newSearch = (newsearch) => {
       )
       .then((res) => res.rows)
       .catch((e) => null);
+  } else if (user_id && !query) {
+    return db
+      .query(
+        `
+  INSERT INTO search_analytics (beer_id, user_id)
+  VALUES ($1, $2)`,
+        [beer_id, user_id]
+      )
+      .then((res) => res.rows)
+      .catch((e) => null);
   } else {
     return db
       .query(
@@ -221,7 +247,8 @@ const getRecentlyViewedForUser = (id) => {
 SELECT beers.* FROM search_analytics
 JOIN beers ON beer_id = beers.id
 JOIN users on search_analytics.user_id = users.id 
-WHERE users.id = $1`,
+WHERE users.id = $1
+LIMIT 15`,
       [id]
     )
     .then((res) => res.rows)
