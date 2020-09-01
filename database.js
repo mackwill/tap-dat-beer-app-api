@@ -74,6 +74,21 @@ const getReviewsForSingleBeer = function (beer_id) {
 
 exports.getReviewsForSingleBeer = getReviewsForSingleBeer;
 
+const getReviewsForSingleUser = function (user_id) {
+  return db
+    .query(
+      `
+  SELECT * FROM reviews
+  WHERE user_id = $1
+  `,
+      [user_id]
+    )
+    .then((res) => res.rows)
+    .catch((err) => null);
+};
+
+exports.getReviewsForSingleUser = getReviewsForSingleUser;
+
 const getRecommendationsForUser = function (userId) {
   return db
     .query(
