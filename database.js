@@ -78,7 +78,8 @@ const getReviewsForSingleUser = function (user_id) {
   return db
     .query(
       `
-  SELECT * FROM reviews
+  SELECT reviews.*, beers.name AS beer_name FROM reviews 
+  JOIN beers ON beer_id = beers.id
   WHERE user_id = $1
   `,
       [user_id]
