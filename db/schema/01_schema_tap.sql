@@ -61,7 +61,8 @@ CREATE TABLE reviews(
   sour INTEGER,
   hoppy INTEGER,
   bitter INTEGER,
-  rank INTEGER
+  rank INTEGER,
+  creation_date TIMESTAMP DEFAULT now()
 );
 
 CREATE TABLE upvotes(
