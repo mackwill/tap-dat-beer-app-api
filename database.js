@@ -11,7 +11,9 @@ const getUserWithEmail = function (email) {
       [email]
     )
     .then((res) => res.rows[0])
-    .catch((e) => null);
+    .catch((err) => {
+      res.send({ err });
+    });
 };
 exports.getUserWithEmail = getUserWithEmail;
 
@@ -27,7 +29,9 @@ const addUser = function (user) {
       [firstName, lastName, email, password]
     )
     .then((res) => res.rows[0])
-    .catch((e) => null);
+    .catch((e) => {
+      throw new Error();
+    });
 };
 exports.addUser = addUser;
 

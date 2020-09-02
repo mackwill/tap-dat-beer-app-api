@@ -6,12 +6,19 @@ const jwt = require("jsonwebtoken");
 
 //LOGIN HELPER
 const login = function (email, password) {
-  return database.getUserWithEmail(email).then((user) => {
-    if (bcrypt.compareSync(password, user.password)) {
-      return user;
-    }
-    return null;
-  });
+  let msg = "";
+  return database
+    .getUserWithEmail(email)
+    .then((user) => {
+      if (bcrypt.compareSync(password, user.password)) {
+        return user;
+      }
+      throw new Error("Invalid password");
+    })
+    .catch((err) => {
+      res.status(500);
+      res.send("Invalid Login");
+    });
 };
 
 //AUTHENTICATE MIDDLEWARE FOR THE JSONWEBTOKEN
@@ -54,8 +61,7 @@ module.exports = () => {
     login(email, password)
       .then((user) => {
         if (!user) {
-          console.log("sorry");
-          res.send("didnt work");
+          throw new Error();
         }
         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
         req.session.token = accessToken;
@@ -63,7 +69,8 @@ module.exports = () => {
         res.status(200);
       })
       .catch(() => {
-        res.send();
+        res.status(500);
+        res.send("Error logging in");
       });
   });
 
@@ -71,16 +78,17 @@ module.exports = () => {
   router.post("/register", (req, res) => {
     const user = req.body;
     user.password = bcrypt.hashSync(user.password, 12);
-    database.getUserWithEmail(user.email).then((existingUser) => {
-      if (existingUser) {
-        res.send();
-      } else {
-        database
-          .addUser(user)
-          .then((user) => {
+    database
+      .getUserWithEmail(user.email)
+      .then((existingUser) => {
+        if (existingUser) {
+          throw new Error("Email already exists");
+          // res.status(500);
+        } else {
+          database.addUser(user).then((user) => {
             console.log("made it here:", user);
             if (!user) {
-              res.send();
+              t;
             } else {
               const accessToken = jwt.sign(
                 user,
@@ -91,12 +99,15 @@ module.exports = () => {
               res.status(200);
               //res.send(user)
             }
-          })
-          .catch(() => {
-            res.send("Username or password incorrect");
           });
-      }
-    });
+        }
+      })
+      .catch((err) => {
+        console.log("here");
+        res.status(500);
+        res.send(err);
+        res.end();
+      });
   });
 
   //LOGOUT A USER
