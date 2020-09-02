@@ -410,3 +410,45 @@ const deleteReview = (review_id) => {
     .catch((err) => res.status(500));
 };
 exports.deleteReview = deleteReview;
+
+const getTop10Beers = () => {
+  return db
+    .query(
+      `
+    SELECT beers.*, CAST(AVG(reviews.rank) AS DECIMAL(10,2)) as avg_rank FROM beers
+    JOIN reviews ON reviews.beer_id = beers.id
+    GROUP BY beers.id
+    ORDER BY avg_rank DESC
+    LIMIT 10
+    `
+    )
+    .then((res) => res.rows)
+    .catch((err) => res.status(500));
+};
+exports.getTop10Beers = getTop10Beers;
+
+const getTop10Reviewed = () => {
+  return db
+    .query(
+      `
+      SELECT beers.*, COUNT(reviews.*) as num_reviews FROM beers
+      LEFT JOIN reviews ON reviews.beer_id = beers.id
+      GROUP BY beers.id 
+      ORDER BY num_reviews DESC
+  `
+    )
+    .then((res) => res.rows)
+    .catch((err) => res.status(500));
+};
+exports.getTop10Reviewed = getTop10Reviewed;
+
+const getBeerCategories = () => {
+  return db
+    .query(
+      `
+  SELECT type, COUNT(beers.*) from beers GROUP BY type  `
+    )
+    .then((res) => res.rows)
+    .catch((err) => res.status(500));
+};
+exports.getBeerCategories = getBeerCategories;

@@ -54,5 +54,17 @@ module.exports = () => {
       });
   });
 
+  router.get("/top10rated", (req, res) => {
+    database.getTop10Beers().then((data) => res.send({ data }));
+  });
+
+  router.get("/top10reviewed", (req, res) => {
+    database.getTop10Reviewed().then((data) => res.send({ data }));
+  });
+
+  router.get("/categories", (req, res) => {
+    database.getBeerCategories().then((data) => res.send({ data }));
+  });
+
   return router;
 };
