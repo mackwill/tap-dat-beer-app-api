@@ -37,7 +37,8 @@ const getBeers = function () {
       `
       SELECT beers.*, CAST(AVG(reviews.rank) AS DECIMAL(10,2)) as avg_rank, COUNT(reviews.*) as num_reviews FROM beers
       LEFT JOIN reviews ON reviews.beer_id = beers.id
-      GROUP BY beers.id  `
+      GROUP BY beers.id 
+      limit 15`
     )
     .then((res) => res.rows)
     .catch((err) => res.status(500));
@@ -435,6 +436,7 @@ const getTop10Reviewed = () => {
       LEFT JOIN reviews ON reviews.beer_id = beers.id
       GROUP BY beers.id 
       ORDER BY num_reviews DESC
+      limit 10
   `
     )
     .then((res) => res.rows)
@@ -446,7 +448,7 @@ const getBeerCategories = () => {
   return db
     .query(
       `
-  SELECT type, COUNT(beers.*) from beers GROUP BY type  `
+  SELECT type, COUNT(beers.*) from beers GROUP BY type`
     )
     .then((res) => res.rows)
     .catch((err) => res.status(500));
