@@ -8,6 +8,7 @@ function getUnique(arr, comp) {
     .map((e) => arr[e]);
   return unique;
 }
+exports.getUnique = getUnique;
 
 const returnTop10Searches = (data) => {
   const arrayOfBeerId = data.map((elm) => elm.beer_id);

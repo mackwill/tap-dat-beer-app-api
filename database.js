@@ -48,8 +48,10 @@ const getASingleBeer = function (beer_id) {
   return db
     .query(
       `
-  SELECT * FROM beers
-  WHERE id = $1
+  SELECT beers.*, CAST(AVG(reviews.rank) AS DECIMAL(10,2)) as avg_rank FROM beers
+  LEFT JOIN reviews ON reviews.beer_id = beers.id
+  WHERE beers.id = $1
+  GROUP BY beers.id
   `,
       [beer_id]
     )
