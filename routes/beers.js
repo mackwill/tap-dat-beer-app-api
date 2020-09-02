@@ -5,6 +5,24 @@ const { authenticate } = require("../helper");
 const { getUnique } = require("../helper");
 
 module.exports = () => {
+  router.get("/top10rated", (req, res) => {
+    database.getTop10Beers().then((data) => {
+      res.status(200);
+      res.send({ data });
+    });
+  });
+
+  router.get("/top10reviewed", (req, res) => {
+    database.getTop10Reviewed().then((data) => {
+      console.log("data: ", data);
+      res.send({ data });
+    });
+  });
+
+  router.get("/categories", (req, res) => {
+    database.getBeerCategories().then((data) => res.send({ data }));
+  });
+
   //GET ALL THE BEERS
   router.get("/", (req, res) => {
     console.log("Getting all the beers");
@@ -39,7 +57,6 @@ module.exports = () => {
     database
       .getASingleBeer(req.params.id)
       .then((data) => {
-        console.log("data", data);
         singleBeer = { ...data };
         return database.getReviewsForSingleBeer(data.id);
       })
@@ -53,18 +70,6 @@ module.exports = () => {
         res.status(500);
         console.log("Error: ", err);
       });
-  });
-
-  router.get("/top10rated", (req, res) => {
-    database.getTop10Beers().then((data) => res.send({ data }));
-  });
-
-  router.get("/top10reviewed", (req, res) => {
-    database.getTop10Reviewed().then((data) => res.send({ data }));
-  });
-
-  router.get("/categories", (req, res) => {
-    database.getBeerCategories().then((data) => res.send({ data }));
   });
 
   return router;
