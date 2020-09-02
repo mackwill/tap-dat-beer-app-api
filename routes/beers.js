@@ -30,11 +30,12 @@ module.exports = () => {
 
   //GET A SPECIFIC BEER AND REVIEWS RELATED TO THAT BEER
   router.get("/:id", (req, res) => {
-    console.log("Getting a specific beer and its reviews");
+    console.log("Getting a specific beer and its reviews", req.params.id);
     let singleBeer = {};
     database
       .getASingleBeer(req.params.id)
       .then((data) => {
+        console.log("data", data);
         singleBeer = { ...data };
         return database.getReviewsForSingleBeer(data.id);
       })

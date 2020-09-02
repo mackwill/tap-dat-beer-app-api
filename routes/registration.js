@@ -32,7 +32,7 @@ module.exports = () => {
         .then((data) => res.json({ data }))
         .catch((e) => null);
     }
-    res.send();
+    // res.send();
   });
 
   //UPDATE USER INFORMATION
