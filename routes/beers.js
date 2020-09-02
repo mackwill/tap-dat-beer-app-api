@@ -19,6 +19,15 @@ module.exports = () => {
       .then((data) => res.send({ data }));
   });
 
+  //GET RECENTLY SEEN BEERS
+  router.get("/recently", authenticate, (req, res) => {
+    console.log("Pulling recently viewed");
+    if (!req.user) res.send();
+    database
+      .getRecentlyViewedForUser(req.user.id)
+      .then((data) => res.send({ data }));
+  });
+
   //GET A SPECIFIC BEER AND REVIEWS RELATED TO THAT BEER
   router.get("/:id", (req, res) => {
     console.log("Getting a specific beer and its reviews");

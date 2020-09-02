@@ -22,5 +22,19 @@ module.exports = () => {
     database.createReview(review).then((data) => res.send({ data }));
   });
 
+  //DELETE A REVIEW
+  router.delete("/:id", authenticate, (req, res) => {
+    console.log("Deleting a review");
+    if (req.user) {
+      database
+        .deleteReview(req.params.id)
+        .then((data) => res.send({ data }))
+        .catch((err) => {
+          console.log("err: ", err);
+          res.status(500);
+        });
+    }
+  });
+
   return router;
 };
