@@ -1,32 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const database = require("../database");
-const jwt = require("jsonwebtoken");
+const { authenticate } = require("../helper");
 
-//AUTHENTICATE MIDDLEWARE FOR THE JSONWEBTOKEN
-function authenticate(req, res, next) {
-  console.log(req.session.token);
-  const token = req.session.token;
-  if (token == null) return res.sendStatus(401);
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.user = user;
-  });
-  next();
-}
 module.exports = () => {
   //GET ALL THE BEERS
   router.get("/", (req, res) => {
-    if (req.session) {
-      console.log("get back cookie:", req.session.token);
-    }
+    console.log("Getting all the beers");
     database.getBeers().then((data) => res.send({ data }));
   });
 
+  //GET RECOMMENDATION FOR SPECIFIC USER
   router.get("/recommendations", authenticate, (req, res) => {
+    console.log("Getting beers recommendations");
     const userId = req.user.id;
-    console.log("Got here:", userId);
     database
       .getRecommendationsForUser(userId)
       .then((data) => res.send({ data }));
@@ -34,6 +21,7 @@ module.exports = () => {
 
   //GET A SPECIFIC BEER AND REVIEWS RELATED TO THAT BEER
   router.get("/:id", (req, res) => {
+    console.log("Getting a specific beer and its reviews");
     let singleBeer = {};
     database
       .getASingleBeer(req.params.id)
