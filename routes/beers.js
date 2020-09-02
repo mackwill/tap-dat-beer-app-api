@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const database = require("../database");
 const { authenticate } = require("../helper");
+const { getUnique } = require("../helper");
 
 module.exports = () => {
   //GET ALL THE BEERS
@@ -25,7 +26,10 @@ module.exports = () => {
     if (!req.user) res.send();
     database
       .getRecentlyViewedForUser(req.user.id)
-      .then((data) => res.send({ data }));
+      .then((recentlyViewedBeers) => {
+        const data = getUnique(recentlyViewedBeers, "id");
+        res.send({ data });
+      });
   });
 
   //GET A SPECIFIC BEER AND REVIEWS RELATED TO THAT BEER
@@ -49,6 +53,18 @@ module.exports = () => {
         res.status(500);
         console.log("Error: ", err);
       });
+  });
+
+  router.get("/top10rated", (req, res) => {
+    database.getTop10Beers().then((data) => res.send({ data }));
+  });
+
+  router.get("/top10reviewed", (req, res) => {
+    database.getTop10Reviewed().then((data) => res.send({ data }));
+  });
+
+  router.get("/categories", (req, res) => {
+    database.getBeerCategories().then((data) => res.send({ data }));
   });
 
   return router;
