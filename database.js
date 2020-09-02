@@ -11,9 +11,7 @@ const getUserWithEmail = function (email) {
       [email]
     )
     .then((res) => res.rows[0])
-    .catch((err) => {
-      res.send({ err });
-    });
+    .catch((err) => res.status(500));
 };
 exports.getUserWithEmail = getUserWithEmail;
 
@@ -29,9 +27,7 @@ const addUser = function (user) {
       [firstName, lastName, email, password]
     )
     .then((res) => res.rows[0])
-    .catch((e) => {
-      throw new Error();
-    });
+    .catch((err) => res.status(500));
 };
 exports.addUser = addUser;
 
@@ -44,7 +40,7 @@ const getBeers = function () {
       GROUP BY beers.id  `
     )
     .then((res) => res.rows)
-    .catch((e) => null);
+    .catch((err) => res.status(500));
 };
 exports.getBeers = getBeers;
 
@@ -58,7 +54,7 @@ const getASingleBeer = function (beer_id) {
       [beer_id]
     )
     .then((res) => res.rows[0])
-    .catch((e) => null);
+    .catch((err) => res.status(500));
 };
 exports.getASingleBeer = getASingleBeer;
 
@@ -73,7 +69,7 @@ const getReviewsForSingleBeer = function (beer_id) {
       [beer_id]
     )
     .then((res) => res.rows)
-    .catch((err) => null);
+    .catch((err) => res.status(500));
 };
 
 exports.getReviewsForSingleBeer = getReviewsForSingleBeer;
@@ -89,7 +85,7 @@ const getReviewsForSingleUser = function (user_id) {
       [user_id]
     )
     .then((res) => res.rows)
-    .catch((err) => null);
+    .catch((err) => res.status(500));
 };
 
 exports.getReviewsForSingleUser = getReviewsForSingleUser;
@@ -105,7 +101,7 @@ const getRecommendationsForUser = function (userId) {
       [userId]
     )
     .then((res) => res.rows)
-    .catch((e) => null);
+    .catch((err) => res.status(500));
 };
 exports.getRecommendationsForUser = getRecommendationsForUser;
 
@@ -121,7 +117,7 @@ const getAllUsers = function () {
   return db
     .query(`SELECT * FROM users`)
     .then((res) => res.rows)
-    .catch((e) => null);
+    .catch((err) => res.status(500));
 };
 exports.getAllUsers = getAllUsers;
 
@@ -149,8 +145,6 @@ const createRecommendation = function (recommendation) {
 exports.createRecommendation = createRecommendation;
 
 const searchForBeers = (query) => {
-  //let q = `${query}:*`;
-  //let q = query.replace(/ /g, " & ");
   let q = query;
   if (q.trim().split(" ").length === 1) {
     q = `${q.split(" ")[0]}:*`;
@@ -179,7 +173,7 @@ const searchForBeers = (query) => {
       [q]
     )
     .then((res) => res.rows)
-    .catch((e) => null);
+    .catch((err) => res.status(500));
 };
 exports.searchForBeers = searchForBeers;
 
@@ -192,7 +186,7 @@ const getUserById = (id) => {
       [id]
     )
     .then((res) => res.rows[0])
-    .catch((e) => null);
+    .catch((err) => res.status(500));
 };
 exports.getUserById = getUserById;
 
@@ -227,7 +221,7 @@ const newSearch = (newsearch) => {
         [user_id, beer_id, query]
       )
       .then((res) => res.rows)
-      .catch((e) => null);
+      .catch((err) => res.status(500));
   }
 };
 exports.newSearch = newSearch;
@@ -240,7 +234,7 @@ const getSearchAnalytics = () => {
   JOIN beers ON beer_id = beers.id`
     )
     .then((res) => res.rows)
-    .catch((e) => null);
+    .catch((err) => res.status(500));
 };
 exports.getSearchAnalytics = getSearchAnalytics;
 
@@ -256,7 +250,7 @@ LIMIT 15`,
       [id]
     )
     .then((res) => res.rows)
-    .catch((e) => null);
+    .catch((err) => res.status(500));
 };
 exports.getRecentlyViewedForUser = getRecentlyViewedForUser;
 
@@ -270,19 +264,18 @@ const addToWishlist = (beer_id, user_id) => {
       [beer_id, user_id]
     )
     .then((res) => res.rows[0])
-    .catch((e) => null);
+    .catch((err) => res.status(500));
 };
 exports.addToWishlist = addToWishlist;
 
-const deleteFromWishlist = (beer_id, user_id) => {
+const deleteFromWishlist = (wish_id) => {
   return db
     .query(
       `
   DELETE FROM wishlists
-  WHERE beer_id = $1
-  AND user_id = $2;
+  WHERE id = $1
   `,
-      [beer_id, user_id]
+      [wish_id]
     )
     .then((res) => res.rows[0])
     .catch((err) => res.status(500));
@@ -300,7 +293,7 @@ const getWishListByUserId = (user_id) => {
       [user_id]
     )
     .then((res) => res.rows)
-    .catch((e) => null);
+    .catch((err) => res.status(500));
 };
 exports.getWishListByUserId = getWishListByUserId;
 
@@ -336,7 +329,7 @@ const createReview = (reviewObj) => {
         [user_id, beer_id, sweet, sour, hoppy, bitter, rank, review]
       )
       .then((res) => res.rows)
-      .catch((e) => null);
+      .catch((err) => res.status(500));
   }
 };
 exports.createReview = createReview;
@@ -351,7 +344,7 @@ const addNote = (note) => {
       [user_id, beer_id, text]
     )
     .then((res) => res.rows[0])
-    .catch((e) => null);
+    .catch((err) => res.status(500));
 };
 exports.addNote = addNote;
 
@@ -365,7 +358,7 @@ const getNote = (user_id, beer_id) => {
       [beer_id, user_id]
     )
     .then((res) => res.rows[0])
-    .catch((e) => null);
+    .catch((err) => res.status(500));
 };
 exports.getNote = getNote;
 
@@ -381,7 +374,7 @@ const updateNote = (note) => {
       [text, beer_id, user_id]
     )
     .then((res) => res.rows[0])
-    .catch((e) => null);
+    .catch((err) => res.status(500));
 };
 exports.updateNote = updateNote;
 
@@ -398,6 +391,20 @@ const updateUser = (user_id, user) => {
       [first_name, last_name, email, password, user_id]
     )
     .then((res) => res.rows[0])
-    .catch((e) => null);
+    .catch((err) => res.status(500));
 };
 exports.updateUser = updateUser;
+
+const deleteReview = (review_id) => {
+  return db
+    .query(
+      `
+  DELETE FROM reviews
+  WHERE id = $1
+  `,
+      [review_id]
+    )
+    .then((res) => res.rows[0])
+    .catch((err) => res.status(500));
+};
+exports.deleteReview = deleteReview;

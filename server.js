@@ -42,7 +42,6 @@ cron.schedule("* 23 * * *", function () {
 const registrationRoutes = require("./routes/registration");
 const beersRoutes = require("./routes/beers");
 const searchRoutes = require("./routes/search");
-const otherRoutes = require("./routes/other");
 const wishlistsRoutes = require("./routes/wishlists");
 const reviewsRoutes = require("./routes/reviews");
 const notesRoutes = require("./routes/notes");
@@ -50,11 +49,10 @@ const notesRoutes = require("./routes/notes");
 // Mount all resource routes
 app.use("/api", registrationRoutes());
 app.use("/api/beers", beersRoutes());
-app.use("/search", searchRoutes());
-app.use("/other", otherRoutes());
-app.use("/wishlists", wishlistsRoutes());
-app.use("/reviews", reviewsRoutes());
-app.use("/notes", notesRoutes());
+app.use("/api/search", searchRoutes());
+app.use("/api/wishlists", wishlistsRoutes());
+app.use("/api/reviews", reviewsRoutes());
+app.use("/api/notes", notesRoutes());
 
 app.get("/", (req, res) => {
   res.send("hello");
