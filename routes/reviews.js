@@ -22,6 +22,28 @@ module.exports = () => {
     database.createReview(review).then((data) => res.send({ data }));
   });
 
+  //EDIT A REVIEW
+  router.put("/:id", authenticate, (req, res) => {
+    console.log("Editing a review", req.user, req.params.id, req.body);
+    if(req.params.id !== req.body.id) {
+      console.log('this is not good');
+      res.status(400).send('review id must match body id')
+      return;
+    }
+    if (req.user && req.user.id === req.body.user_id) {
+      database  
+        .editReview(req.params.id, req.body)
+        .then((data) => res.send({ data }))
+        .catch((err) => {
+          console.log("err: ", err);
+          res.status(500).send('database failure during an edit review')
+        });
+    } else {
+      console.log('user id does not match:', req.user.id, req.body.user_id);
+      res.status(403).send('invalid user or user id')
+    }
+  });
+
   //DELETE A REVIEW
   router.delete("/:id", authenticate, (req, res) => {
     console.log("Deleting a review");
