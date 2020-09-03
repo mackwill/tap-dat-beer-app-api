@@ -73,7 +73,7 @@ const getReviewsForSingleBeer = function (beer_id) {
       [beer_id]
     )
     .then((res) => res.rows)
-    .catch((err) => res.status(500));
+    .catch((err) => console.log(err));
 };
 
 exports.getReviewsForSingleBeer = getReviewsForSingleBeer;

@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const database = require("./database");
 
 function getUnique(arr, comp) {
   const unique = arr
