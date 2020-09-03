@@ -25,7 +25,6 @@ module.exports = () => {
         }
 
         results.results = data.slice(startIndex, endIndex);
-        console.log("result sending:", results);
         res.send(results);
       })
       .catch((e) => null);
