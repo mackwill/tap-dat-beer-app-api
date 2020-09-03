@@ -22,21 +22,14 @@ module.exports = () => {
     database.getBeerCategories().then((data) => res.send({ data }));
   });
 
-  router.get("/similar/:id", (req, res) => {
+  router.get("/similar/:id", async (req, res) => {
     console.log("getting similar beers");
-    database
-      .getBeers()
-      .then((beers) => {
-        return getSimilarBeers(req.params.id, beers);
-      })
-      .then((data) => {
-        res.status(200);
-        res.send({ data });
-      })
-      .catch((err) => {
-        res.status(500);
-        res.send("Error getting similar beers: ", err);
-      });
+    const beers = await database.getBeers();
+    const singleBeer = await database.getASingleBeer(req.params.id);
+    const data = getSimilarBeers(singleBeer, beers);
+    console.log("singleBeer:", singleBeer);
+
+    res.send({ data });
   });
 
   //GET ALL THE BEERS

@@ -291,7 +291,7 @@ const getWishListByUserId = (user_id) => {
   return db
     .query(
       `
-  SELECT beers.* FROM wishlists
+  SELECT beers.*, wishlists.id as w_id FROM wishlists
   JOIN beers ON beer_id = beers.id
   WHERE user_id = $1`,
       [user_id]
