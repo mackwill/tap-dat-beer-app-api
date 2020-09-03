@@ -46,7 +46,7 @@ const getBeers = function () {
 exports.getBeers = getBeers;
 
 const getASingleBeer = function (beer_id) {
-  console.log("beer id: ", beer_id);
+  console.log("Getting a beer:", beer_id);
   return db
     .query(
       `

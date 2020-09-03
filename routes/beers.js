@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const database = require("../database");
 const { authenticate } = require("../helper");
-const { getUnique } = require("../helper");
+const { getUnique, getSimilarBeers } = require("../helper");
 
 module.exports = () => {
   router.get("/top10rated", (req, res) => {
@@ -70,6 +70,13 @@ module.exports = () => {
         res.status(500);
         console.log("Error: ", err);
       });
+  });
+
+  router.get("/similar/:id", async (req, res) => {
+    const singleBeer = await database.getASingleBeer(req.params.id);
+    const beers = await database.getBeers();
+    const data = getSimilarBeers(singleBeer, beers);
+    res.send({ data });
   });
 
   return router;
