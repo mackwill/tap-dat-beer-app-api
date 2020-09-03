@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const database = require("../database");
-const { authenticate } = require("../helper");
-const { getUnique } = require("../helper");
+const { authenticate, getSimilarBeers, getUnique } = require("../helper");
 
 module.exports = () => {
   router.get("/top10rated", (req, res) => {
@@ -21,6 +20,23 @@ module.exports = () => {
 
   router.get("/categories", (req, res) => {
     database.getBeerCategories().then((data) => res.send({ data }));
+  });
+
+  router.get("/similar/:id", (req, res) => {
+    console.log("getting similar beers");
+    database
+      .getBeers()
+      .then((beers) => {
+        return getSimilarBeers(req.params.id, beers);
+      })
+      .then((data) => {
+        res.status(200);
+        res.send({ data });
+      })
+      .catch((err) => {
+        res.status(500);
+        res.send("Error getting similar beers: ", err);
+      });
   });
 
   //GET ALL THE BEERS
