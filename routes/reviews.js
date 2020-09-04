@@ -50,8 +50,9 @@ module.exports = () => {
 
   //EDIT A REVIEW
   router.put("/:id", authenticate, (req, res) => {
-    console.log("Editing a review", req.user, req.params.id, req.body);
-    if(req.params.id !== req.body.id) {
+   // console.log("Editing a review", req.user, req.params.id, req.body);
+    console.log('both ids here', req.body.id, req.params.id);
+    if(req.params.id != req.body.id) {
       console.log('this is not good');
       res.status(400).send('review id must match body id')
       return;
