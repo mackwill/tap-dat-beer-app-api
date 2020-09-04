@@ -405,6 +405,33 @@ const updateUser = (user_id, user) => {
 };
 exports.updateUser = updateUser;
 
+const editReview = (review_id, review) => {
+  const { user_id, beer_id, sweet, sour, hoppy, bitter, rank } = review;
+  return db
+    .query(
+      `
+  UPDATE reviews
+  SET user_id = $1, beer_id = $2, review = $3, sweet = $4, sour = $5, hoppy = $6, bitter = $7, rank = $8
+  WHERE id = $9
+  RETURNING *
+  `,
+      [
+        user_id,
+        beer_id,
+        review.review,
+        sweet,
+        sour,
+        hoppy,
+        bitter,
+        rank,
+        review_id,
+      ]
+    )
+    .then((res) => res.rows[0])
+    .catch((err) => res.status(500));
+};
+exports.editReview = editReview;
+
 const deleteReview = (review_id) => {
   return db
     .query(
