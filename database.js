@@ -406,7 +406,7 @@ const updateUser = (user_id, user) => {
 exports.updateUser = updateUser;
 
 const editReview = (review_id, review) => {
-  const {user_id, beer_id, sweet, sour, hoppy, bitter, rank} = review
+  const { user_id, beer_id, sweet, sour, hoppy, bitter, rank } = review;
   return db
     .query(
       `
@@ -415,7 +415,17 @@ const editReview = (review_id, review) => {
   WHERE id = $9
   RETURNING *
   `,
-      [user_id, beer_id, review.review, sweet, sour, hoppy, bitter, rank, review_id]
+      [
+        user_id,
+        beer_id,
+        review.review,
+        sweet,
+        sour,
+        hoppy,
+        bitter,
+        rank,
+        review_id,
+      ]
     )
     .then((res) => res.rows[0])
     .catch((err) => res.status(500));
