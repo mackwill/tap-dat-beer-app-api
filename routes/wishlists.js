@@ -24,6 +24,7 @@ module.exports = () => {
   //DELETE A WISH
   router.delete("/:id", authenticate, (req, res) => {
     console.log("Deleting a wish");
+    console.log("delete id: ", req.params.id);
     if (req.user) {
       database
         .deleteFromWishlist(req.params.id)

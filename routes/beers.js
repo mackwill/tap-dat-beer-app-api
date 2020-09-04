@@ -13,7 +13,7 @@ module.exports = () => {
 
   router.get("/top10reviewed", (req, res) => {
     database.getTop10Reviewed().then((data) => {
-      console.log("data: ", data);
+      // console.log("data: ", data);
       res.send({ data });
     });
   });
@@ -61,7 +61,7 @@ module.exports = () => {
 
   //GET A SPECIFIC BEER AND REVIEWS RELATED TO THAT BEER
   router.get("/:id", (req, res) => {
-    console.log("Getting a specific beer and its reviews", req.params.id);
+    // console.log("Getting a specific beer and its reviews", req.params.id);
     let singleBeer = {};
     database
       .getASingleBeer(req.params.id)
