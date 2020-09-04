@@ -84,7 +84,7 @@ module.exports = () => {
           database.addUser(user).then((user) => {
             console.log("made it here:", user);
             if (!user) {
-              t;
+              throw new Error();
             } else {
               const accessToken = jwt.sign(
                 user,
