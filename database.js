@@ -82,7 +82,7 @@ const getReviewsForSingleUser = function (user_id) {
   return db
     .query(
       `
-  SELECT reviews.*, beers.name AS beer_name FROM reviews 
+  SELECT reviews.*, beers.name AS beer_name, beers.beer_image FROM reviews 
   JOIN beers ON beer_id = beers.id
   WHERE user_id = $1
   `,
@@ -98,7 +98,7 @@ const getRecommendationsForUser = function (userId) {
   return db
     .query(
       `
-  SELECT beers.*, CAST(AVG(reviews.rank) AS DECIMAL(10,2)) as avg_rank FROM beers
+  SELECT beers.*, CAST(AVG(reviews.rank) AS DECIMAL(10,2)) as avg_rank, COUNT(reviews.rank) as num_reviews FROM beers
   JOIN recommendations ON beers.id = beer_id
   LEFT JOIN reviews ON reviews.beer_id = beers.id
   WHERE reviews.user_id = $1
@@ -248,7 +248,7 @@ const getRecentlyViewedForUser = (id) => {
   return db
     .query(
       `
-SELECT beers.*, CAST(AVG(reviews.rank) AS DECIMAL(10,2)) as avg_rank FROM search_analytics
+SELECT beers.*, CAST(AVG(reviews.rank) AS DECIMAL(10,2)) as avg_rank, COUNT(reviews.rank) as num_reviews FROM search_analytics
 JOIN beers ON beer_id = beers.id
 JOIN users on search_analytics.user_id = users.id 
 LEFT JOIN reviews ON reviews.beer_id = beers.id
@@ -452,7 +452,7 @@ const getTop10Beers = () => {
   return db
     .query(
       `
-    SELECT beers.*, CAST(AVG(reviews.rank) AS DECIMAL(10,2)) as avg_rank FROM beers
+    SELECT beers.*, CAST(AVG(reviews.rank) AS DECIMAL(10,2)) as avg_rank, COUNT(reviews.rank) as num_reviews FROM beers
     JOIN reviews ON reviews.beer_id = beers.id
     GROUP BY beers.id
     ORDER BY avg_rank DESC
