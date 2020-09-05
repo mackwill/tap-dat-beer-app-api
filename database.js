@@ -324,10 +324,11 @@ const createReview = (reviewObj) => {
         `
       INSERT INTO reviews (user_id, beer_id, sweet, sour, hoppy, bitter, rank)
       VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING * 
   `,
         [user_id, beer_id, sweet, sour, hoppy, bitter, rank]
       )
-      .then((res) => res.rows)
+      .then((res) => res.rows[0])
       .catch((e) => null);
   } else {
     return db
@@ -335,10 +336,11 @@ const createReview = (reviewObj) => {
         `
       INSERT INTO reviews (user_id, beer_id, sweet, sour, hoppy, bitter, rank, review)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      RETURNING * 
   `,
         [user_id, beer_id, sweet, sour, hoppy, bitter, rank, review]
       )
-      .then((res) => res.rows)
+      .then((res) => res.rows[0])
       .catch((err) => res.status(500));
   }
 };
