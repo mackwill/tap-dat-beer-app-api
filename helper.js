@@ -88,13 +88,18 @@ function find9ClosestNeighbour(beer, beers) {
     return 0;
   }
   const sortedStats = stats.sort(compare);
-  return sortedStats.slice(0, 6).map((elm) => elm.id);
+  const sortedStatsWithoutCurrent = sortedStats.filter(
+    (elm) => elm.id !== beer.id
+  );
+
+  return sortedStatsWithoutCurrent.slice(0, 6).map((elm) => elm.id);
 }
 
 const getSimilarBeers = (currentBeer, otherBeers) => {
   const similarBeers = otherBeers.filter((elm) =>
     find9ClosestNeighbour(currentBeer, otherBeers).includes(elm.id)
   );
+  console.log("the beer:", currentBeer, "the sumilar beers:", similarBeers);
   return similarBeers;
 };
 
