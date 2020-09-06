@@ -9,9 +9,21 @@ function transformDataToTable(data) {
   data.forEach((elm) => {
     if (!ratings_to_table[elm.user_id]) {
       ratings_to_table[elm.user_id] = {};
-      ratings_to_table[elm.user_id][elm.beer_id] = elm.rank;
+      ratings_to_table[elm.user_id][elm.beer_id] = {
+        rank: elm.rank,
+        sour: elm.sour,
+        sweet: elm.sweet,
+        hoppy: elm.hoppy,
+        bitter: elm.bitter,
+      };
     } else {
-      ratings_to_table[elm.user_id][elm.beer_id] = elm.rank;
+      ratings_to_table[elm.user_id][elm.beer_id] = {
+        rank: elm.rank,
+        sour: elm.sour,
+        sweet: elm.sweet,
+        hoppy: elm.hoppy,
+        bitter: elm.bitter,
+      };
     }
   });
   return ratings_to_table;
@@ -23,16 +35,23 @@ function euclideanSimilarity(user, otherUser) {
   var otherUser = otherUser;
 
   const ratedBeers_id = Object.keys(user);
-
   var sumSquares = 0;
   for (let i = 0; i < ratedBeers_id.length; i++) {
     const rating_user = user[ratedBeers_id[i]];
     const rating_other_user = otherUser[ratedBeers_id[i]];
 
     if (rating_user != null && rating_other_user != null) {
-      const difference = rating_user - rating_other_user;
+      const userReviewData = Object.keys(rating_user);
+      const otherUserReviewData = Object.keys(rating_other_user);
+      for (let i = 0; i < userReviewData.length; i++) {
+        const difference =
+          rating_user[userReviewData[i]] -
+          rating_other_user[otherUserReviewData[i]];
+        sumSquares += difference * difference;
+      }
+      // const difference = rating_user - rating_other_user;
 
-      sumSquares += difference * difference;
+      // sumSquares += difference * difference;
     }
   }
   var distance = Math.sqrt(sumSquares);

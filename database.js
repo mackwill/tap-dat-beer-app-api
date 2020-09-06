@@ -113,7 +113,7 @@ exports.getRecommendationsForUser = getRecommendationsForUser;
 
 const getAllRatings = function () {
   return db
-    .query(`SELECT user_id, beer_id, rank FROM reviews`)
+    .query(`SELECT * FROM reviews`)
     .then((res) => res.rows)
     .catch((e) => null);
 };
