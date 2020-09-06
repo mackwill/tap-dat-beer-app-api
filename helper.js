@@ -99,9 +99,7 @@ const getSimilarBeers = (currentBeer, otherBeers) => {
   const similarBeers = otherBeers.filter((elm) =>
     find9ClosestNeighbour(currentBeer, otherBeers).includes(elm.id)
   );
-  console.log("the beer:", currentBeer, "the sumilar beers:", similarBeers);
   return similarBeers;
 };
 
 exports.getSimilarBeers = getSimilarBeers;
-//console.log(getSimilarBeers(currentBeer, beers));
