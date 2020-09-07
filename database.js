@@ -268,6 +268,7 @@ const addToWishlist = (beer_id, user_id) => {
       `
     INSERT INTO wishlists (beer_id, user_id)
     VALUES ($1, $2)
+    RETURNING *
   `,
       [beer_id, user_id]
     )
@@ -282,6 +283,7 @@ const deleteFromWishlist = (wish_id) => {
       `
   DELETE FROM wishlists
   WHERE id = $1
+  RETURNING *
   `,
       [wish_id]
     )
