@@ -24,27 +24,15 @@ module.exports = () => {
   //DELETE A WISH
   router.delete("/:id", authenticate, (req, res) => {
     console.log("Deleting a wish");
-    console.log("delete id: ", req.params.id);
     if (req.user) {
       database
         .deleteFromWishlist(req.params.id)
         .then((data) => res.send({ data }))
         .catch((err) => {
-          console.log("err: ", err);
           res.status(500);
         });
     }
   });
-  // router.post("/delete", authenticate, (req, res) => {
-  //   console.log("Deleting a wish");
-  //   database
-  //     .deleteFromWishlist(req.body.beer_id, req.body.user_id)
-  //     .then((data) => res.send({ data }))
-  //     .catch((err) => {
-  //       console.log("err: ", err);
-  //       res.status(500);
-  //     });
-  // });
 
   return router;
 };

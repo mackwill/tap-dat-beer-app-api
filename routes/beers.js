@@ -5,6 +5,7 @@ const { authenticate, getSimilarBeers, getUnique } = require("../helper");
 
 module.exports = () => {
   router.get("/top10rated", (req, res) => {
+    console.log("Getting Top 10 rated beers");
     database.getTop10Beers().then((data) => {
       res.status(200);
       res.send({ data });
@@ -12,13 +13,15 @@ module.exports = () => {
   });
 
   router.get("/top10reviewed", (req, res) => {
+    console.log("Getting Top 10 reviewed beers");
+
     database.getTop10Reviewed().then((data) => {
-      // console.log("data: ", data);
       res.send({ data });
     });
   });
 
   router.get("/categories", (req, res) => {
+    console.log("Getting beer categories");
     database.getBeerCategories().then((data) => res.send({ data }));
   });
 
@@ -27,8 +30,6 @@ module.exports = () => {
     const beers = await database.getBeers();
     const singleBeer = await database.getASingleBeer(req.params.id);
     const data = getSimilarBeers(singleBeer, beers);
-    console.log("singleBeer:", singleBeer);
-
     res.send({ data });
   });
 
@@ -61,7 +62,7 @@ module.exports = () => {
 
   //GET A SPECIFIC BEER AND REVIEWS RELATED TO THAT BEER
   router.get("/:id", (req, res) => {
-    // console.log("Getting a specific beer and its reviews", req.params.id);
+    console.log("Getting a specific beer and its reviews");
     let singleBeer = {};
     database
       .getASingleBeer(req.params.id)

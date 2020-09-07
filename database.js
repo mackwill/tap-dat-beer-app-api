@@ -45,7 +45,6 @@ const getBeers = function () {
 exports.getBeers = getBeers;
 
 const getASingleBeer = function (beer_id) {
-  console.log("beer id: ", beer_id);
   return db
     .query(
       `
@@ -68,6 +67,7 @@ const getReviewsForSingleBeer = function (beer_id) {
   SELECT reviews.*, users.first_name FROM reviews
   JOIN users ON user_id = users.id
   WHERE beer_id = $1
+  ORDER BY creation_date DESC
   `,
       [beer_id]
     )
@@ -277,7 +277,6 @@ const addToWishlist = (beer_id, user_id) => {
 exports.addToWishlist = addToWishlist;
 
 const deleteFromWishlist = (wish_id) => {
-  console.log("wish_id", wish_id);
   return db
     .query(
       `
@@ -287,7 +286,7 @@ const deleteFromWishlist = (wish_id) => {
       [wish_id]
     )
     .then((res) => res.rows[0])
-    .catch((err) => console.log("Error: ", err));
+    .catch((err) => res.status(500));
 };
 
 exports.deleteFromWishlist = deleteFromWishlist;

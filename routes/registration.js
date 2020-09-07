@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken");
 
 //LOGIN HELPER
 const login = function (email, password) {
-  let msg = "";
   return database
     .getUserWithEmail(email)
     .then((user) => {
@@ -32,7 +31,6 @@ module.exports = () => {
         .then((data) => res.json({ data }))
         .catch((e) => null);
     }
-    // res.send();
   });
 
   //UPDATE USER INFORMATION
@@ -79,10 +77,8 @@ module.exports = () => {
       .then((existingUser) => {
         if (existingUser) {
           throw new Error("Email already exists");
-          // res.status(500);
         } else {
           database.addUser(user).then((user) => {
-            console.log("made it here:", user);
             if (!user) {
               throw new Error();
             } else {
@@ -98,7 +94,6 @@ module.exports = () => {
         }
       })
       .catch((err) => {
-        console.log("here");
         res.status(500);
         res.send(err);
         res.end();

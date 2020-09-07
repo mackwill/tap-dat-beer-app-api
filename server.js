@@ -7,7 +7,6 @@ const ENV = process.env.ENV || "development";
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
-const bcrypt = require("bcrypt");
 const app = express();
 const cron = require("node-cron");
 
@@ -19,7 +18,6 @@ db.connect();
 
 module.exports = db;
 
-const database = require("./database");
 const engine = require("./recommendation_system/index");
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,7 +32,6 @@ app.use(
 );
 engine.recommendationEngine();
 cron.schedule("* 23 * * *", function () {
-  console.log("Engine running...");
   engine.recommendationEngine();
 });
 

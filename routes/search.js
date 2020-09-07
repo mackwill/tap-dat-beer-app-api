@@ -6,21 +6,13 @@ const { returnTop10Searches } = require("../helper");
 module.exports = () => {
   //GET BEERS WITH SEARCH QUERY
   router.get("/", (req, res) => {
+    console.log("Get beers from search query");
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
 
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
     const results = {};
-    console.log(
-      "request:",
-      "page:",
-      page,
-      "limit:",
-      limit,
-      "query:",
-      req.query.q
-    );
 
     database
       .searchForBeers(req.query.q)
@@ -33,7 +25,6 @@ module.exports = () => {
         }
 
         results.results = data.slice(startIndex, endIndex);
-        console.log("results of search:", results);
         res.send(results);
       })
       .catch((e) => null);
