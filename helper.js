@@ -1,8 +1,5 @@
 const jwt = require("jsonwebtoken");
 
-const aws = require("aws-sdk");
-const s3 = new aws.S3({ secretAccessKey: process.env.ACCESS_TOKEN_SECRET });
-
 //RETURN ARRAY OF UNIQUE OBJECTS
 function getUnique(arr, comp) {
   const unique = arr
@@ -45,7 +42,7 @@ function authenticate(req, res, next) {
   const token = req.session.token;
   if (token == null) return res.sendStatus(401);
 
-  jwt.verify(token, s3.secretAccessKey, (err, user) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;
   });
