@@ -48,7 +48,7 @@ app.use("/api/beers", beersRoutes());
 app.use("/api/search", searchRoutes());
 app.use("/api/wishlists", wishlistsRoutes());
 app.use("/api/reviews", reviewsRoutes());
-app.use("/api/notes", notesRoutes());
+app.use("/api/Notes", notesRoutes());
 
 app.listen(PORT, () => {
   console.log("Server API listening on port " + PORT);
