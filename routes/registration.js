@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 const database = require("../database");
 const { authenticate } = require("../helper");
 const jwt = require("jsonwebtoken");
+const aws = require("aws-sdk");
+const s3 = new aws.S3({ secretAccessKey: process.env.ACCESS_TOKEN_SECRET });
 
 //LOGIN HELPER
 const login = function (email, password) {
@@ -53,7 +55,7 @@ module.exports = () => {
         if (!user) {
           throw new Error();
         }
-        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+        const accessToken = jwt.sign(user, s3.secretAccessKey);
         req.session.token = accessToken;
         res.json({ user, accessToken });
         res.status(200);
