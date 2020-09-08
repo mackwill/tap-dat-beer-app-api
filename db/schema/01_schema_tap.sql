@@ -42,7 +42,7 @@ CREATE TABLE reviews(
   id SERIAL PRIMARY KEY NOT NULL,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   beer_id INTEGER REFERENCES beers(id) ON DELETE CASCADE,
-  review VARCHAR(255),
+  review TEXT,
   sweet INTEGER,
   sour INTEGER,
   hoppy INTEGER,
