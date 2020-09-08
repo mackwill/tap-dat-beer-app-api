@@ -4,10 +4,10 @@ const fs = require("fs");
 //Write INSERT INTO query into db seeds
 fs.writeFile(
   "db/seeds/02_seed_beers.sql",
-  "INSERT INTO beers (name, brewery, beer_image, type, abv, beer_store_id)\nVALUES \n",
+  "INSERT INTO beers (name, brewery, beer_image, type, abv, beer_store_id, ibu)\nVALUES \n",
   (err) => {
     if (err) throw err;
-    console.log("done");
+    console.log("Saved API data to beer seed file");
   }
 );
 
@@ -27,7 +27,11 @@ request("http://ontariobeerapi.ca/beers/", { json: true }, (err, res, body) => {
         setTimeout(function () {
           fs.appendFile(
             "db/seeds/02_seed_beers.sql",
-            `('${beer.name}', '${beer.brewer}', '${beer.image_url}', '${beer.type}', ${beer.abv}, ${beer.beer_id});`,
+            `('${beer.name}', '${beer.brewer}', '${beer.image_url}', '${
+              beer.type
+            }', ${beer.abv}, ${beer.beer_id}, ${Math.floor(
+              Math.random() * 100
+            )});`,
             (err) => {
               if (err) throw err;
             }
@@ -36,7 +40,11 @@ request("http://ontariobeerapi.ca/beers/", { json: true }, (err, res, body) => {
       } else {
         fs.appendFile(
           "db/seeds/02_seed_beers.sql",
-          `('${beer.name}', '${beer.brewer}', '${beer.image_url}', '${beer.type}', ${beer.abv}, ${beer.beer_id}),`,
+          `('${beer.name}', '${beer.brewer}', '${beer.image_url}', '${
+            beer.type
+          }', ${beer.abv}, ${beer.beer_id}, ${Math.floor(
+            Math.random() * 100
+          )}),`,
           (err) => {
             if (err) throw err;
           }

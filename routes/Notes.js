@@ -6,7 +6,6 @@ const { authenticate } = require("../helper");
 module.exports = () => {
   //CREATE A NEW NOTE, IF NOTE EXIST  UPDATE IT
   router.post("/", authenticate, (req, res) => {
-    console.log("Creating a new note, or updating one");
     const note = req.body;
     note.user_id = req.user.id;
     database.getNote(req.user.id, req.body.beer_id).then((existingNote) => {
@@ -20,7 +19,6 @@ module.exports = () => {
 
   //GET A NOTE FOR SPECIFIC USER
   router.get("/:id", authenticate, (req, res) => {
-    console.log("Getting a specific note");
     if (!req.user) {
       res.send();
     } else {

@@ -49,9 +49,6 @@ function euclideanSimilarity(user, otherUser) {
           rating_other_user[otherUserReviewData[i]];
         sumSquares += difference * difference;
       }
-      // const difference = rating_user - rating_other_user;
-
-      // sumSquares += difference * difference;
     }
   }
   var distance = Math.sqrt(sumSquares);

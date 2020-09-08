@@ -1,5 +1,4 @@
 const db = require("./server");
-const beers = require("./routes/beers");
 
 const getUserWithEmail = function (email) {
   return db
@@ -72,7 +71,7 @@ const getReviewsForSingleBeer = function (beer_id) {
       [beer_id]
     )
     .then((res) => res.rows)
-    .catch((err) => console.log(err));
+    .catch((err) => res.status(500));
 };
 
 exports.getReviewsForSingleBeer = getReviewsForSingleBeer;

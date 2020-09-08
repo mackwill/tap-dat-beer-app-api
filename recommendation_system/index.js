@@ -30,10 +30,9 @@ const recommendationEngine = async () => {
       } ),`;
     }
   });
-  console.log(finalInsert);
   db.query(`DELETE FROM recommendations`)
-    .then((res) => console.log("deleted:works:", res))
-    .catch((e) => console.log("deleted:failed:", e));
+    .then((res) => console.log("deleted old recommendations"))
+    .catch((e) => console.log("Problem with deletion of old recommendations"));
 
   db.query(
     `
@@ -41,7 +40,7 @@ const recommendationEngine = async () => {
       VALUES ${finalInsert}
       `
   )
-    .then((res) => console.log("Added:works:", res.rows))
-    .catch((e) => console.log("Added: failed:", null));
+    .then((res) => console.log("Recommendation Engine just ran"))
+    .catch((e) => console.log("Recommendation Engine just failed"));
 };
 exports.recommendationEngine = recommendationEngine;

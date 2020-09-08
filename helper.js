@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
-const database = require("./database");
 
+//RETURN ARRAY OF UNIQUE OBJECTS
 function getUnique(arr, comp) {
   const unique = arr
     .map((e) => e[comp])
@@ -11,6 +11,7 @@ function getUnique(arr, comp) {
 }
 exports.getUnique = getUnique;
 
+//RETURN THE TOP 10 MOST POPULAR SEARCHES
 const returnTop10Searches = (data) => {
   const arrayOfBeerId = data.map((elm) => elm.beer_id);
 
@@ -49,7 +50,7 @@ function authenticate(req, res, next) {
 }
 exports.authenticate = authenticate;
 
-// GET SIMILAR BEERS BASED ON CLICKED BEER
+//RETURN EUCLEDIAN DISTANCE BETWEEN 2 BEERS
 function newEuclidean(mainBeer, beer) {
   let typeSumSquare = 0;
   let brandSumSquare = 0;
@@ -70,6 +71,7 @@ function newEuclidean(mainBeer, beer) {
   return similarityScore;
 }
 
+//FIND CLOSEST BEER USING CONTENT FILTERING
 function find9ClosestNeighbour(beer, beers) {
   const stats = [];
   beers.forEach((elm) => {
@@ -95,6 +97,7 @@ function find9ClosestNeighbour(beer, beers) {
   return sortedStatsWithoutCurrent.slice(0, 6).map((elm) => elm.id);
 }
 
+//RETURN ARRAY OF SIMILAR BEER OBJECTS
 const getSimilarBeers = (currentBeer, otherBeers) => {
   const similarBeers = otherBeers.filter((elm) =>
     find9ClosestNeighbour(currentBeer, otherBeers).includes(elm.id)

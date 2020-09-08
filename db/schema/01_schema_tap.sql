@@ -21,6 +21,7 @@ CREATE TABLE beers(
   beer_image TEXT,
   type VARCHAR(255) NOT NULL,
   abv INTEGER NOT NULL,
+  ibu INTEGER NOT NULL,
   beer_store_id INTEGER
 );
 

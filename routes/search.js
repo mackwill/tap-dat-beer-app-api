@@ -6,7 +6,6 @@ const { returnTop10Searches } = require("../helper");
 module.exports = () => {
   //GET BEERS WITH SEARCH QUERY
   router.get("/", (req, res) => {
-    console.log("Get beers from search query");
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
 
@@ -32,7 +31,6 @@ module.exports = () => {
 
   //CREATE A HISTORY ANALYTICS ROW
   router.post("/analytics", (req, res) => {
-    console.log("Pushing to analytics");
     database
       .newSearch(req.body)
       .then((data) => res.send(data))
@@ -41,8 +39,6 @@ module.exports = () => {
 
   //GET TOP 10 SEARCHES
   router.get("/analytics", (req, res) => {
-    console.log("Getting top 10 searches");
-
     database
       .getSearchAnalytics()
       .then((data) => {

@@ -6,7 +6,6 @@ const { authenticate } = require("../helper");
 module.exports = () => {
   //GET REVIEWS FOR SPECIFIC USER
   router.get("/user", authenticate, (req, res) => {
-    console.log("Getting reviews for a  user");
     const user = req.user.id;
     database
       .getReviewsForSingleUser(user)
@@ -16,7 +15,6 @@ module.exports = () => {
 
   //GET REVIEWS FOR SPECIFIC BEER
   router.get("/beers/:id", (req, res) => {
-    console.log("Getting reviews for specific beer");
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
 
@@ -28,7 +26,6 @@ module.exports = () => {
 
   //CREATE REVIEW
   router.post("/", authenticate, (req, res) => {
-    console.log("Creating a review");
     const review = req.body;
     review.user_id = req.user.id;
     database.createReview(review).then((data) => res.send({ data }));
@@ -36,7 +33,6 @@ module.exports = () => {
 
   //EDIT A REVIEW
   router.put("/:id", authenticate, (req, res) => {
-    console.log("Editing a review");
     if (req.params.id != req.body.id) {
       res.status(400).send("review id must match body id");
       return;
@@ -56,7 +52,6 @@ module.exports = () => {
 
   //DELETE A REVIEW
   router.delete("/:id", authenticate, (req, res) => {
-    console.log("Deleting a review");
     if (req.user) {
       database
         .deleteReview(req.params.id)

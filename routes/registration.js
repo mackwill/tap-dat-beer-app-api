@@ -24,7 +24,6 @@ const login = function (email, password) {
 module.exports = () => {
   //GET USER INFORMATION
   router.get("/user", authenticate, (req, res) => {
-    console.log("Getting user information");
     if (req.user) {
       database
         .getUserById(req.user.id)
@@ -35,7 +34,6 @@ module.exports = () => {
 
   //UPDATE USER INFORMATION
   router.put("/user", authenticate, (req, res) => {
-    console.log("Updating user information");
     const user = req.user;
     if (user) {
       database
@@ -49,7 +47,6 @@ module.exports = () => {
 
   //LOGIN A USER
   router.post("/login", (req, res) => {
-    console.log("Loging in user");
     const { email, password } = req.body;
     login(email, password)
       .then((user) => {
@@ -69,7 +66,6 @@ module.exports = () => {
 
   //REGISTER/CREATE A USER
   router.post("/register", (req, res) => {
-    console.log("Creating a user");
     const user = req.body;
     user.password = bcrypt.hashSync(user.password, 12);
     database
@@ -102,7 +98,6 @@ module.exports = () => {
 
   //LOGOUT A USER
   router.post("/logout", (req, res) => {
-    console.log("Loging out a user");
     req.session.token = null;
     res.send("Logout successful");
   });

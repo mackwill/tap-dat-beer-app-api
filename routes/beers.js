@@ -5,7 +5,6 @@ const { authenticate, getSimilarBeers, getUnique } = require("../helper");
 
 module.exports = () => {
   router.get("/top10rated", (req, res) => {
-    console.log("Getting Top 10 rated beers");
     database.getTop10Beers().then((data) => {
       res.status(200);
       res.send({ data });
@@ -13,20 +12,16 @@ module.exports = () => {
   });
 
   router.get("/top10reviewed", (req, res) => {
-    console.log("Getting Top 10 reviewed beers");
-
     database.getTop10Reviewed().then((data) => {
       res.send({ data });
     });
   });
 
   router.get("/categories", (req, res) => {
-    console.log("Getting beer categories");
     database.getBeerCategories().then((data) => res.send({ data }));
   });
 
   router.get("/similar/:id", async (req, res) => {
-    console.log("getting similar beers");
     const beers = await database.getBeers();
     const singleBeer = await database.getASingleBeer(req.params.id);
     const data = getSimilarBeers(singleBeer, beers);
@@ -35,13 +30,11 @@ module.exports = () => {
 
   //GET ALL THE BEERS
   router.get("/", (req, res) => {
-    console.log("Getting all the beers");
     database.getBeers().then((data) => res.send({ data }));
   });
 
   //GET RECOMMENDATION FOR SPECIFIC USER
   router.get("/recommendations", authenticate, (req, res) => {
-    console.log("Getting beers recommendations");
     const userId = req.user.id;
     database
       .getRecommendationsForUser(userId)
@@ -50,7 +43,6 @@ module.exports = () => {
 
   //GET RECENTLY SEEN BEERS
   router.get("/recently", authenticate, (req, res) => {
-    console.log("Pulling recently viewed");
     if (!req.user) res.send();
     database
       .getRecentlyViewedForUser(req.user.id)
@@ -62,7 +54,6 @@ module.exports = () => {
 
   //GET A SPECIFIC BEER AND REVIEWS RELATED TO THAT BEER
   router.get("/:id", (req, res) => {
-    console.log("Getting a specific beer and its reviews");
     let singleBeer = {};
     database
       .getASingleBeer(req.params.id)
@@ -78,7 +69,6 @@ module.exports = () => {
       })
       .catch((err) => {
         res.status(500);
-        console.log("Error: ", err);
       });
   });
 

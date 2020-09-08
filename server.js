@@ -51,10 +51,6 @@ app.use("/api/wishlists", wishlistsRoutes());
 app.use("/api/reviews", reviewsRoutes());
 app.use("/api/notes", notesRoutes());
 
-app.get("/", (req, res) => {
-  res.send("hello");
-});
-
 app.listen(PORT, () => {
-  console.log("Example app listening on port " + PORT);
+  console.log("Server API listening on port " + PORT);
 });
