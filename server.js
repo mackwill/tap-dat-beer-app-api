@@ -40,7 +40,7 @@ const beersRoutes = require("./routes/beers");
 const searchRoutes = require("./routes/search");
 const wishlistsRoutes = require("./routes/wishlists");
 const reviewsRoutes = require("./routes/reviews");
-const notesRoutes = require("./routes/notes");
+const notesRoutes = require("./routes/Notes");
 
 // Mount all resource routes
 app.use("/api", registrationRoutes());
