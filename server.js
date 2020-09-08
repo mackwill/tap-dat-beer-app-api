@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const app = express();
 const cron = require("node-cron");
+const cors = require("cors");
 
 // PG database client/connection setup
 const { Pool } = require("pg");
@@ -21,6 +22,8 @@ const engine = require("./recommendation_system/index");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(cors());
 
 app.use(
   cookieSession({
