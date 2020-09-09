@@ -60,8 +60,8 @@ module.exports = () => {
         // res.status(200);
 
         const origin = [
-          "https://serene-visvesvaraya-fd9028.netlify.app/",
-          "http://localhost:3002/",
+          "https://serene-visvesvaraya-fd9028.netlify.app",
+          "http://localhost:3002",
         ];
 
         res.setHeader("Access-Control-Allow-Origin", origin);
