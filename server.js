@@ -25,12 +25,16 @@ app.use(express.json());
 
 app.use(cors());
 
+app.set("trust proxy", 1);
+
 app.use(
   cookieSession({
     name: "session",
     keys: ["key1", "key2"],
     // secureProxy: true,
     maxAge: 60 * 60 * 1000 * 1,
+    httpOnly: false,
+    secure: true,
   })
 );
 engine.recommendationEngine();
