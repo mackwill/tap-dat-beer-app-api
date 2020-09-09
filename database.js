@@ -66,7 +66,7 @@ const getReviewsForSingleBeer = function (beer_id) {
   SELECT reviews.*, users.first_name FROM reviews
   JOIN users ON user_id = users.id
   WHERE beer_id = $1
-  ORDER BY creation_date
+  ORDER BY creation_date DESC
   `,
       [beer_id]
     )
