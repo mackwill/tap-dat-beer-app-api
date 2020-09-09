@@ -39,9 +39,9 @@ exports.returnTop10Searches = returnTop10Searches;
 
 //AUTHENTICATE MIDDLEWARE FOR THE JSONWEBTOKEN
 function authenticate(req, res, next) {
-  const token = req.session.token;
-  if (token == null) return res.sendStatus(401);
-
+  const brutToken = req.headers.authorization;
+  if (brutToken == null) return res.sendStatus(401);
+  const token = brutToken.split(" ")[1];
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;

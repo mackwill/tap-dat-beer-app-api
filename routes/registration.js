@@ -54,8 +54,9 @@ module.exports = () => {
           throw new Error();
         }
         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-        req.session.token = accessToken;
-        res.json({ user, accessToken });
+        user.token = accessToken;
+        res.send({ user });
+
         res.status(200);
       })
       .catch(() => {
@@ -82,8 +83,8 @@ module.exports = () => {
                 user,
                 process.env.ACCESS_TOKEN_SECRET
               );
-              req.session.token = accessToken;
-              res.json({ user, accessToken });
+              user.token = accessToken;
+              res.send({ user });
               res.status(200);
             }
           });
