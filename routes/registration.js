@@ -55,27 +55,8 @@ module.exports = () => {
         }
         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
         req.session.token = accessToken;
-        // req.session.user = user;
-        // res.json({ user, accessToken });
-        // res.status(200);
-
-        const origin = [
-          "https://serene-visvesvaraya-fd9028.netlify.app",
-          "http://localhost:3002",
-        ];
-
-        res.setHeader("Access-Control-Allow-Origin", origin);
-        res.header(
-          "Access-Control-Allow-Methods",
-          "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-        );
-        res.header(
-          "Access-Control-Allow-Headers",
-          "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-        );
-        res.header("Access-Control-Allow-Credentials", "true");
-
-        res.send({ user, accessToken });
+        res.json({ user, accessToken });
+        res.status(200);
       })
       .catch(() => {
         res.status(500);
